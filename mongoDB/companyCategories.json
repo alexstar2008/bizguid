@@ -1,0 +1,31 @@
+[
+  {
+    "_id" : "00000000000004",
+    "slug" : "breeding-pigs",
+    "name" : "Разведение свиней",
+    "description" : "Разведение свиней",
+    "level" : 1,
+
+    "parent_id" : "00000000000000003",
+
+    "ancestors" : [
+      {
+        "name" : "Сельское хозяйство, охота и лесное хозяйство",
+        "_id" : "00000000000000001",
+        "slug" : "agriculture-hunting-and-forestry"
+      },
+
+      {
+        "name" : "Сельское хозяйство, охота и связанные с ними услуги",
+        "_id" : "00000000000000002",
+        "slug" : "agriculture-hunting-and-related-services"
+      },
+
+      {
+        "name" : "Животноводство",
+        "_id" : "00000000000000003",
+        "slug" : "livestock-raising"
+      }
+    ]
+  }
+]

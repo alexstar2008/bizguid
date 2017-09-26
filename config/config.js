@@ -7,15 +7,15 @@ const dbSettings = {
         port: process.env.MONGO_PORT || 43532
     },
     sqlDb: {
-        db: process.env.SQL_DB || 'test',
-        username: process.env.SQL_DB_USERNAME || 'alex',
-        pass: process.env.SQL_DB_PASS || 'pass',
-        host: process.env.SQL_DB_HOST || 'host',
-        port: process.env.SQL_PORT || 3000
+        db: process.env.SQL_DB || 'new_biz_guid',
+        username: process.env.SQL_DB_USERNAME || 'root',
+        pass: process.env.SQL_DB_PASS || '970619',
+        host: process.env.SQL_DB_HOST || '127.0.0.1',
+        port: process.env.SQL_PORT || 3306
     }
 };
 const serverSettings = {
-    port: process.env.PORT || 3000
+    port: process.env.PORT || 3006
 };
 
 module.exports = Object.assign({}, {dbSettings, serverSettings});

@@ -1,0 +1,105 @@
+[
+  {
+    "_id": "000000000000000000000001",
+   /*subdomain*/ "slug": "ukrpole",
+
+   /*name_jur*/ "name": "Українське поле",
+   /*image[enterprises_id]*/ "logo" : "http://image",
+   /*prod_dopol*/ "description": "Компанія «УКРАЇНСЬКЕ ПОЛЕ» є спеціалізованим і одним з найбільших виробників України елітного насіння, а також виробником широкого спектру сільськогосподарської продукції. Основний профіль компанії це оптові продажі різних видів насіння і готової продукції - зернових та овочевих культур.",
+
+    /*email[,]+email_contact*/ "emails" : [
+      "urkpole@gmail.com"
+    ],
+
+    "details" : {
+
+      /*cod1+t1*/    "phones" : [
+        "+38 (044) 5372807"
+      ],
+
+      /*p_index_jur + address_jur_russian*/    "postAddress" : "01011 г. Киев, ул. Спортивная, 121",
+      /*p_index_actual + address_actual_russian*/"address":"",
+      /*cod3+t3_fax*/    "faxes" : [
+        "+38 (044) 5372807"
+      ],
+
+      "contactPeople": {
+        /*contact*/        "manager" : "Кукин Сергей",
+        /*fio_ruk_russian*/        "director" : "Голова Иван Петрович",
+        /*fio_buch*/       "accountant" : "Глотова Жанна Васильевна"
+      },
+
+      "openHours" : {
+        /*rabota_ot1+rabota_do1*/     "Mon-Fri" : "10.00 - 17.00",
+        /*rabota_ot6+rabota_do6*/     "Sat-Sun" : "Выходний"
+      },
+
+      "socials" : {
+//        /**/     "facebook" : "",
+//        /**/    "twitter" : "",
+        /*skype*/     "skype" : "urkpole"
+      },
+
+      /*chisl*/  "employeesNumber" : 75,
+      /*osn*/  "yearOfFoundation": 1984
+
+    },
+
+    "bankDetails" : {
+      /*zkpo_int*/  "companyRegistrationNumber" : 12345678,
+      /*bank*/  "bank" : "Райффайзен Банк Аваль",
+      /*mfo*/ "MFO" : 300335,
+      /*r_r*/  "INN" : "26003450012345"
+    },
+
+//    "products" : [
+//      {
+//        /**/   "_id": "000000000000000000000001",
+//        /**/     "slug": "sunflower-seeds-nut",
+//        /**/   "name": "Насіння соняшнику Горішок",
+//        /**/   "image" : "http://..."
+//      }
+//    ],
+
+    /*prod_russian*/ "productsAndOffers" : " Выращивание и оптовая и розничная торговля: - зерновыми и техническими культурами и кормами для животных;- овощами;- фруктами, ягодами, орехами, культурами для производства напитков и пряностей;- цветами и растениями.",
+
+    /*fil[;]*/  "branches" : [
+      "м. Бровари, вул. Центральна 1, тел. 050-555-33-11; ",
+      "м. Харків, вул. Перемоги 1, тел. 050-555-33-22;"
+    ],
+
+    /*trade_mark*/ "trademarks" : [
+      "ТМ УКРАЇНСЬКЕ ПОЛЕ"
+    ],
+
+    /*catalog_koatuu_mva*/ "categoriesId" : [
+      "categoryId1",
+      "categoryId2"
+    ],
+
+    /*catalog_koatuu_mva*/"companyRegionsId" : [
+      "regionId1",
+      "regionId2"
+    ],
+
+    /*export_countries_mva*/"exportRegionsID" : [
+      "regionId1",
+      "regionId2"
+    ],
+
+    /*import_countries_mva*/ "importRegionsId" : [
+      "regionId1",
+      "regionId2"
+    ],
+
+
+    /*yakist*/ "QualityStandards" : [
+      "ISO 22006:2009"
+    ],
+
+    /*web*/"sitesUrl" : [
+      "https://ukrpole.com.ua"
+    ]
+
+  }
+]

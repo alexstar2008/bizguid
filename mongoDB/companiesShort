@@ -1,0 +1,56 @@
+[
+  {
+    "_id": "000000000000000000000001",
+    "slug": "ukrpole",
+    "name": "Українське поле",
+
+    "emails": [
+      "urkpole@gmail.com"
+    ],
+
+    "regionName": "г.Киев",
+
+    "phones": [
+      "+38 (044) 5372807"
+    ],
+
+    "productsAndOffers": " Выращивание и оптовая и розничная торговля: - зерновыми и техническими культурами и кормами для животных;- овощами;- фруктами, ягодами, орехами, культурами для производства напитков и пряностей;- цветами и растениями.",
+
+    "categoriesId": [
+      "categoryId1",
+      "categoryId2"
+    ],
+
+    "companyRegionsId": [
+      "regionId1",
+      "regionId2"
+    ],
+
+    "deepCategoriesId": [
+      "categoryId"
+    ],
+
+    "deepRegionsId": [
+      "regionsId"
+    ],
+
+    "upMainPageStartData" : "",
+    "upCategoryStartData" : "",
+    "upRegionStartData" : "",
+
+    "uprise" : {
+      "mainPage":{
+          "endDate":"",
+          "price":123
+      },
+      "category":{
+        "endDate":"",
+        "price":123
+      },
+      "region":{
+        "endDate":"",
+        "price":123
+      }
+    }
+  }
+]

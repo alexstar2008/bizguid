@@ -36,6 +36,32 @@ const connection = (db) => {
         });
     };
 
+
+    const insertFullCompanies = (data)=> {
+        const collection = db.collection('companiesFull');
+        return new Promise((resolve,reject)=>{
+           const companies = data;
+           collection.remove();
+           collection.insertMany(companies,(err,res)=>{
+                if(err)
+                    reject(new Error("Cannot insert"));
+                resolve(res);
+           });
+        });
+    };
+    const insertShortCompanies = (data)=> {
+        const collection = db.collection('companiesShort');
+        return new Promise((resolve,reject)=>{
+            const companies = data;
+            collection.remove();
+            collection.insertMany(companies,(err,res)=>{
+                if(err)
+                    reject(new Error("Cannot insert"));
+                resolve(res);
+            });
+        });
+    };
+
     const disconnect = () => {
         db.close();
     };
@@ -44,6 +70,8 @@ const connection = (db) => {
         getAllCompanies,
         getCompanyMainInfo,
         disconnect,
+        insertFullCompanies,
+        insertShortCompanies
     };
 };
 
