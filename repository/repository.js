@@ -13,7 +13,7 @@ const connection = (db) => {
             });
         });
     };
-    const getCompanyMainInfo = (slug) => {
+    const getCompanyInfo = (slug) => {
         const collection = db.collection('companiesFull');
         return new Promise((resolve, reject) => {
             collection.findOne(
@@ -68,7 +68,7 @@ const connection = (db) => {
 
     return {
         getAllCompanies,
-        getCompanyMainInfo,
+        getCompanyInfo,
         disconnect,
         insertFullCompanies,
         insertShortCompanies

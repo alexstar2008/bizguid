@@ -7,7 +7,8 @@ const api = (app,repo)=>{
         });
     });
     app.get("/enterprises/:slug",(req,res,next)=>{
-        repository.getCompanyMainInfo(req.params.slug).then((data)=>{
+        const slug = req.params.slug;
+        repository.getCompanyInfo(slug).then((data)=>{
             res.status(200).send(data);
         });
     });

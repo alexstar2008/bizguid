@@ -22,7 +22,7 @@ const start = (options)=>{
         enterprisesApi(app,options.repo);
 
         const transferService = transfer();
-        transferService.makeTransfer(options.sqlDbOptions,options.repo);
+        // transferService.makeTransfer(options.sqlDbOptions,options.repo);
 
 
         const server = app.listen(options.port,()=>{resolve(server);});
