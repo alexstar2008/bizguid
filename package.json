@@ -4,7 +4,7 @@
   "description": "Bizguid - information about companies",
   "main": "index.js",
   "scripts": {
-    "postinstall": "bower install && gulp build",
+    "preinstall": "npm install",
     "test": "",
     "start": "node index.js"
   },
