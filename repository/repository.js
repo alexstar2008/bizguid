@@ -3,10 +3,13 @@
 
 const connection = (db) => {
 
-    const getAllCompanies = () => {
+    const getAllCompanies = (skip=0,limit=100) => {
         const collection = db.collection('companiesShort');
         return new Promise((resolve, reject) => {
-            collection.find({}, (err, companies) => {
+            const options = {
+                skip,limit
+            };
+            collection.find({},options,(err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(companies.toArray());

@@ -1,6 +1,6 @@
 {
   "name": "bizguid",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Bizguid - information about companies",
   "main": "index.js",
   "engines":{
@@ -8,6 +8,7 @@
     "npm" : "4.0.5"
   },
   "scripts": {
+    "preinstall":"",
     "test": "",
     "start": "node index.js"
   },

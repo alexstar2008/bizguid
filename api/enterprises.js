@@ -1,8 +1,10 @@
 const api = (app,repo)=>{
 
     let repository = repo;
-    app.get("/enterprises/",(req,res,next)=>{
-        repository.getAllCompanies().then((data)=>{
+    app.get("/enterprises",(req,res,next)=>{
+        const offset = +req.query.offset;
+        const amount  = +req.query.amount;
+        repository.getAllCompanies(offset,amount).then((data)=>{
             res.status(200).send(data);
         });
     });
