@@ -4,7 +4,7 @@
   "description": "Bizguid - information about companies",
   "main": "index.js",
   "scripts": {
-    "preinstall": "npm install",
+//    "preinstall": "npm install",
     "test": "",
     "start": "node index.js"
   },

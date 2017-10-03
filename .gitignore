@@ -50,5 +50,4 @@ typings/
 
 # dotenv environment variables file
 .env
-.idea/inspectionProfiles/
 tests/
