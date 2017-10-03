@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "Bizguid - information about companies",
   "main": "index.js",
+  "engines":{
+    "node":"7.4.0",
+    "npm" : "4.0.5"
+  },
   "scripts": {
-//    "preinstall": "npm install",
     "test": "",
     "start": "node index.js"
   },
