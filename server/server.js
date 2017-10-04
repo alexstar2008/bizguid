@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const routes = require('../routes/index.route');
 const {port} = require('../config/config').serverSettings;
 //transfer
-// const transfer = require('../migration/transfer.js');
+const transferService = require('../migration/transfer.js')();
 
 
 const start = ()=>{
@@ -22,8 +22,8 @@ const start = ()=>{
 
         app.use('/api',routes);
 
-        // const transferService = transfer();
-        // transferService.makeTransfer(options.sqlDbOptions,options.repo);
+         //transfer regions
+         // transferService.transferRegions();
 
 
         const server = app.listen(port,()=>{resolve(server);});

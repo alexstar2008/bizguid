@@ -1,13 +1,83 @@
-const mysqlConnection = require('./mysqlDbConnection');
+const { ObjectID } = require('mongodb');
 
+const config = require('../config/config').dbSettings;
+const db = require('../config/db');
+const mysqlConnection = require('./mysqlDbConnection');
+const enterprisesController = require('../controllers/enterprises.controller')();
+
+
+
+//helpers
+const getFieldsBySchema = (schema, company) => {
+    const filterCompany = {};
+
+    for (schemaKey in schema) {
+        const value = schema[schemaKey];
+
+        if (typeof value === 'string') {
+            if (company[value])
+                filterCompany[schemaKey] = company[value];
+        }
+        else if (typeof value === 'function') {
+            const result = value(company);
+            if (result)
+                filterCompany[schemaKey] = result;
+        }
+        else if (typeof  value === 'object') {
+            const schemaKeyObject = schemaKey;
+            const newFields = getFieldsBySchema(value, company);
+
+            if (Object.keys(newFields).length != 0) {
+                if (!filterCompany[schemaKeyObject])
+                    filterCompany[schemaKeyObject] = {};
+                Object.assign(filterCompany[schemaKeyObject], newFields);
+            }
+        }
+    }
+    return filterCompany;
+};
+const getFieldsBySchemaWithPredefined = (schema, company) => {
+    const filterCompany = {};
+
+    for (schemaKey in schema) {
+        const value = schema[schemaKey];
+
+        if (typeof value === 'string') {
+            if (company[value])
+                filterCompany[schemaKey] = company[value];
+            else
+                filterCompany[schemaKey] = value;
+        }
+        else if (typeof value === 'function') {
+            const result = value(company);
+            if (result)
+                filterCompany[schemaKey] = result;
+        }
+        //TODO: CHANGE LOGIC
+        else if (Array.isArray(value)) {
+            filterCompany[schemaKey] = value;
+        }
+        else if (typeof  value === 'object') {
+            const schemaKeyObject = schemaKey;
+            const newFields = getFieldsBySchemaWithPredefined(value, company);
+
+            if (Object.keys(newFields).length != 0) {
+                if (!filterCompany[schemaKeyObject])
+                    filterCompany[schemaKeyObject] = {};
+                Object.assign(filterCompany[schemaKeyObject], newFields);
+            }
+        }
+    }
+    return filterCompany;
+};
 
 const transfer = () => {
-    const makeTransfer = (mongoDbSettings, repo) => {
+    const transferCompanies = (mongoDbSettings, repo) => {
         let conn = mysqlConnection.makeConnection(mongoDbSettings);
 
         const amountOfCompanies = 10000;
         const sql = "SELECT *FROM enterprises JOIN enterprises_logo as logo ON " +
-            "enterprises.id = logo.enterprises_id LIMIT "+conn.escape(amountOfCompanies);
+            "enterprises.id = logo.enterprises_id LIMIT " + conn.escape(amountOfCompanies);
 
         conn.query(sql, (err, results, fields) => {
             if (err)
@@ -175,50 +245,83 @@ const transfer = () => {
                 filteredFullCompanies.push(filteredFullCompany);
                 filteredShortCompanies.push(filteredShortCompany);
             }
-            console.dir(filteredFullCompanies);
-            console.dir(filteredShortCompanies);
 
             repo.insertFullCompanies(filteredFullCompanies);
             repo.insertShortCompanies(filteredShortCompanies);
         });
     };
-    const getFieldsBySchema = (schema, company) => {
-        const filterCompany = {};
 
-        for (schemaKey in schema) {
-            const value = schema[schemaKey];
 
-            if (typeof value === 'string') {
-                if (company[value])
-                    filterCompany[schemaKey] = company[value];
-            }
-            else if (typeof value === 'function') {
-                const result = value(company);
-                if (result)
-                    filterCompany[schemaKey] = result;
-            }
-            else if (typeof  value === 'object') {
-                const schemaKeyObject = schemaKey;
-                const newFields = getFieldsBySchema(value, company);
 
-                if (Object.keys(newFields).length != 0) {
-                    if (!filterCompany[schemaKeyObject])
-                        filterCompany[schemaKeyObject] = {};
-                    Object.assign(filterCompany[schemaKeyObject], newFields);
-                }
+    const transferRegions = () => {
+        const conn = mysqlConnection.makeConnection(config.sqlDb);
+        //
+        const worldLevelId = 724;
+        const countriesSql = "SELECT id,name_ukrainian,name_english FROM catalog_koatuu WHERE level = 1 AND id=1";
+        const regionSql = "SELECT id,name_ukrainian,name_english FROM catalog_koatuu WHERE level=2";
+
+
+        const wholeWorld = {
+            "slug": "whole-world",
+            "_id": new ObjectID().toString() ,
+        };
+        const ukraineCountry = {
+                "slug": "ukraine",
+                "_id": new ObjectID().toString() ,
+                "parent_id": wholeWorld._id,
+                ancestors: [
+                    {
+                        "name": "Весь світ",
+                        "_id": wholeWorld._id,
+                        "slug": "whole-world"
+                    },
+                ]
+        };
+
+        const schemaUkraineSubRegion = {
+            "slug": (company) => {
+                if (company.name_english)
+                    return company.name_english.toLowerCase();
+            },
+            "name": "name_ukrainian",
+            "parent_id": ukraineCountry._id,
+            "ancestors": [
+                {
+                    "name": "Весь світ",
+                    "_id": wholeWorld._id,
+                    "slug": "whole-world"
+                },
+                {
+                    "name": "Україна",
+                    "_id": ukraineCountry._id,
+                    "slug": "ukraine"
+                },
+            ]
+        };
+        conn.query(regionSql, (err, results, fields) => {
+            if (err)
+                console.log(err);
+
+            //parse regions
+            const subUkrRegionsLength = results.length;
+            const filteredRegions = [wholeWorld,ukraineCountry];
+            for (let i = 0; i < subUkrRegionsLength; i++) {
+                const region = results[i];
+                filteredRegions.push(getFieldsBySchemaWithPredefined(schemaUkraineSubRegion, region));
             }
-        }
-        return filterCompany;
+            enterprisesController.insertRegions(filteredRegions);
+        });
     };
 
     //TODO: divide to modules
     const transferToFullCompany = () => {
-    }
+    };
     const transferToShortCompany = () => {
-    }
+    };
 
     return {
-        makeTransfer
+        transferCompanies,
+        transferRegions
     };
 };
 

@@ -2,6 +2,7 @@ const db = require('../config/db');
 
 const companyController = function () {
 
+    //GET
     const getAllCompanies = (skip = 0, limit = 100) => {
 
         const collection = db.get().collection('companiesShort');
@@ -39,6 +40,8 @@ const companyController = function () {
                 });
         });
     };
+
+
     const insertFullCompanies = (data) => {
         const collection = db.get().collection('companiesFull');
         return new Promise((resolve, reject) => {
@@ -63,12 +66,26 @@ const companyController = function () {
             });
         });
     };
+    const insertRegions = (data) =>{
+        const collection = db.get().collection('regions');
+        collection.createIndex( { ancestors: 1 } );
+        return new Promise((resolve, reject) => {
+            const regions = data;
+            collection.remove();
+            collection.insertMany(regions, (err, res) => {
+                if (err)
+                    reject(new Error("Cannot insert regions"));
+                resolve(res);
+            });
+        });
+    };
 
     return {
         getAllCompanies,
         getCompanyInfo,
         insertFullCompanies,
-        insertShortCompanies
+        insertShortCompanies,
+        insertRegions
     };
 };
 
