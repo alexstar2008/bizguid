@@ -18,4 +18,4 @@ const serverSettings = {
     port: process.env.PORT || 3006
 };
 
-module.exports = Object.assign({}, {dbSettings, serverSettings});
+module.exports = {dbSettings, serverSettings};

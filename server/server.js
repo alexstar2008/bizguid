@@ -2,15 +2,16 @@
 const express = require('express');
 const morgan = require('morgan');
 const helmet = require('helmet');
-const enterprisesApi = require('../api/enterprises');
 
+const routes = require('../routes/index.route');
+const {port} = require('../config/config').serverSettings;
 //transfer
-const transfer = require('../migration/transfer.js');
+// const transfer = require('../migration/transfer.js');
 
 
-const start = (options)=>{
+const start = ()=>{
     return new Promise((resolve,reject)=>{
-        if(!options.port){
+        if(!port){
             reject(new Error("Port should be specified"));
         }
 
@@ -19,16 +20,16 @@ const start = (options)=>{
         app.use(morgan('combined'));
         app.use(helmet());
 
-        enterprisesApi(app,options.repo);
+        app.use('/api',routes);
 
-        const transferService = transfer();
+        // const transferService = transfer();
         // transferService.makeTransfer(options.sqlDbOptions,options.repo);
 
 
-        const server = app.listen(options.port,()=>{resolve(server);});
+        const server = app.listen(port,()=>{resolve(server);});
     });
 };
-module.exports = Object.assign({},{start});
+module.exports = {start};
 
 
 

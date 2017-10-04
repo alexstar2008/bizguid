@@ -90,7 +90,7 @@ const transfer = () => {
                 "branches": (company) => {
                     let branches = null;
                     if (company.fil)
-                        branches = company.fil.split(";\r\n")
+                        branches = company.fil.split(";\r\n");
                     return branches;
                 },
                 "trademarks": "trade_mark",
