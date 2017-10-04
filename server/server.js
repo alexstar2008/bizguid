@@ -24,8 +24,6 @@ const start = ()=>{
 
          //transfer regions
          // transferService.transferRegions();
-
-
         const server = app.listen(port,()=>{resolve(server);});
     });
 };

@@ -4,8 +4,8 @@ const companyController = function () {
 
     //GET
     const getAllCompanies = (skip = 0, limit = 100) => {
-
         const collection = db.get().collection('companiesShort');
+
         return new Promise((resolve, reject) => {
             const options = {
                 skip:+skip,
@@ -41,6 +41,16 @@ const companyController = function () {
         });
     };
 
+    const getCompaniesByRegion = (id=724) =>{
+        const collection = db.get().collection('companiesShort');
+        return new Promise((resolve,reject)=>{
+            collection.find({'companyRegionsId':id},(err,companies)=>{
+                if(err)
+                    reject(new Error("Error of getting data"+err));
+                resolve(companies.toArray());
+            });
+        });
+    };
 
     const insertFullCompanies = (data) => {
         const collection = db.get().collection('companiesFull');
@@ -85,7 +95,8 @@ const companyController = function () {
         getCompanyInfo,
         insertFullCompanies,
         insertShortCompanies,
-        insertRegions
+        insertRegions,
+        getCompaniesByRegion
     };
 };
 

@@ -8,7 +8,6 @@ const enterprisesController = require('../controllers/enterprises.controller')()
 router.get("/",(req,res,next)=>{
     const offset = req.query.offset;
     const amount  = req.query.amount;
-    console.log('route');
     enterprisesController.getAllCompanies(offset,amount).then((data)=>{
         res.status(200).send(data);
     });
@@ -21,7 +20,12 @@ router.get("/:slug",(req,res,next)=>{
     });
 });
 
-
+router.get("/region/:slug",(req,res,next)=>{
+    const slug = req.params.slug;
+    enterprisesController.getCompaniesByRegion(slug).then((data)=>{
+        res.status(200).send(data);
+    });
+});
 
 
 module.exports = router;

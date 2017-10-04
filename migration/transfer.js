@@ -1,10 +1,9 @@
-const { ObjectID } = require('mongodb');
+const {ObjectID} = require('mongodb');
 
 const config = require('../config/config').dbSettings;
 const db = require('../config/db');
 const mysqlConnection = require('./mysqlDbConnection');
 const enterprisesController = require('../controllers/enterprises.controller')();
-
 
 
 //helpers
@@ -72,6 +71,7 @@ const getFieldsBySchemaWithPredefined = (schema, company) => {
 };
 
 const transfer = () => {
+
     const transferCompanies = (mongoDbSettings, repo) => {
         let conn = mysqlConnection.makeConnection(mongoDbSettings);
 
@@ -250,9 +250,6 @@ const transfer = () => {
             repo.insertShortCompanies(filteredShortCompanies);
         });
     };
-
-
-
     const transferRegions = () => {
         const conn = mysqlConnection.makeConnection(config.sqlDb);
         //
@@ -263,19 +260,19 @@ const transfer = () => {
 
         const wholeWorld = {
             "slug": "whole-world",
-            "_id": new ObjectID().toString() ,
+            "_id": new ObjectID().toString(),
         };
         const ukraineCountry = {
-                "slug": "ukraine",
-                "_id": new ObjectID().toString() ,
-                "parent_id": wholeWorld._id,
-                ancestors: [
-                    {
-                        "name": "Весь світ",
-                        "_id": wholeWorld._id,
-                        "slug": "whole-world"
-                    },
-                ]
+            "slug": "ukraine",
+            "_id": new ObjectID().toString(),
+            "parent_id": wholeWorld._id,
+            ancestors: [
+                {
+                    "name": "Весь світ",
+                    "_id": wholeWorld._id,
+                    "slug": "whole-world"
+                },
+            ]
         };
 
         const schemaUkraineSubRegion = {
@@ -304,7 +301,7 @@ const transfer = () => {
 
             //parse regions
             const subUkrRegionsLength = results.length;
-            const filteredRegions = [wholeWorld,ukraineCountry];
+            const filteredRegions = [wholeWorld, ukraineCountry];
             for (let i = 0; i < subUkrRegionsLength; i++) {
                 const region = results[i];
                 filteredRegions.push(getFieldsBySchemaWithPredefined(schemaUkraineSubRegion, region));

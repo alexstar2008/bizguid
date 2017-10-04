@@ -15,4 +15,4 @@ const makeConnection = (options)=>{
 };
 
 
-module.exports = Object.assign({},{makeConnection});
+module.exports = {makeConnection};
