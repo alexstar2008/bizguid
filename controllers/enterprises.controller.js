@@ -40,13 +40,31 @@ const companyController = function () {
                 });
         });
     };
-    const getCompaniesByRegion = (id = 724) => {
+    const getCompaniesByRegion = (id = 724, skip=0,limit=100) => {
+        const options = {
+            skip:+skip,
+            limit:+limit
+        };
         const collection = db.get().collection('companiesShort');
         return new Promise((resolve, reject) => {
-            collection.find({'companyRegionsId': id}, (err, companies) => {
+            collection.find({'companyRegionsId': id}, options, (err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(companies.toArray());
+            });
+        });
+    };
+    const getCompaniesByCategory = (id = 724, skip=0,limit=100) => {
+        const options = {
+            skip:+skip,
+            limit:+limit
+        };
+        const collection = db.get().collection('companiesShort');
+        return new Promise((resolve, reject) => {
+            collection.find({'categoriesId': id}, options, (err, enterprises) => {
+                if (err)
+                    reject(new Error("Error of getting data" + err));
+                resolve(enterprises.toArray());
             });
         });
     };

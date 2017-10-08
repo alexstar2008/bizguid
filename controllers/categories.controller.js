@@ -2,16 +2,18 @@ const db = require('../config/db');
 
 const categoriesController = function () {
 
-    // const getChildRegions = (slug="ukraine")=>{
-    //     const collection = db.get().collection('regions');
-    //     return new Promise((resolve, reject) => {
-    //         collection.find({"ancestors.slug":slug}, (err, regions) => {
-    //             if (err)
-    //                 reject(new Error("Error of getting data" + err));
-    //             resolve(regions.toArray());
-    //         });
-    //     });
-    // };
+    const getChildCategories = (slug="ukraine")=>{
+        console.log(slug);
+        const collection = db.get().collection('categories');
+        return new Promise((resolve, reject) => {
+            collection.find({"ancestors.slug":slug}, (err, categories) => {
+                if (err)
+                    reject(new Error("Error of getting data" + err));
+                resolve(categories.toArray());
+            });
+        });
+    };
+
     const insertCategories = (data) =>{
         const collection = db.get().collection('categories');
         const categories = data;
@@ -31,7 +33,7 @@ const categoriesController = function () {
         });
     };
     return{
-        // getChildRegions,
+        getChildCategories,
         insertCategories
     };
 };

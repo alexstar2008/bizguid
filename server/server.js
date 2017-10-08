@@ -1,12 +1,8 @@
 'use strict';
-const express = require('express');
-const morgan = require('morgan');
-const helmet = require('helmet');
 
-const routes = require('../routes/index.route');
+const app = require('../config/express');
 const {port} = require('../config/config').serverSettings;
-//transfer
-const transferService = require('../transfer/transfer.js')();
+// const transferService = require('../transfer/transfer.js')();
 
 
 const start = ()=>{
@@ -15,14 +11,7 @@ const start = ()=>{
             reject(new Error("Port should be specified"));
         }
 
-        const app = express();
-
-        app.use(morgan('combined'));
-        app.use(helmet());
-
-        app.use('/api',routes);
-
-         //transfer regions
+        //transfer regions
         // transferService.transferRegions();
         // transferService.transferCategories();
         // transferService.transferEnterprises();
