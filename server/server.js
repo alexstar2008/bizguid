@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const routes = require('../routes/index.route');
 const {port} = require('../config/config').serverSettings;
 //transfer
-const transferService = require('../migration/transfer.js')();
+const transferService = require('../transfer/transfer.js')();
 
 
 const start = ()=>{
@@ -23,7 +23,10 @@ const start = ()=>{
         app.use('/api',routes);
 
          //transfer regions
-         // transferService.transferRegions();
+        transferService.transferRegions();
+        transferService.transferCategories();
+        transferService.transferEnterprises();
+
         const server = app.listen(port,()=>{resolve(server);});
     });
 };

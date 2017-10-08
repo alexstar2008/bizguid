@@ -8,8 +8,8 @@ const companyController = function () {
 
         return new Promise((resolve, reject) => {
             const options = {
-                skip:+skip,
-                limit:+limit
+                skip: +skip,
+                limit: +limit
             };
             collection.find({}, options, (err, companies) => {
                 if (err)
@@ -40,63 +40,58 @@ const companyController = function () {
                 });
         });
     };
-
-    const getCompaniesByRegion = (id=724) =>{
+    const getCompaniesByRegion = (id = 724) => {
         const collection = db.get().collection('companiesShort');
-        return new Promise((resolve,reject)=>{
-            collection.find({'companyRegionsId':id},(err,companies)=>{
-                if(err)
-                    reject(new Error("Error of getting data"+err));
+        return new Promise((resolve, reject) => {
+            collection.find({'companyRegionsId': id}, (err, companies) => {
+                if (err)
+                    reject(new Error("Error of getting data" + err));
                 resolve(companies.toArray());
             });
         });
     };
 
-    const insertFullCompanies = (data) => {
+    //PUT
+    const insertFullEnterprises = (data) => {
         const collection = db.get().collection('companiesFull');
+        collection.createIndex({slug: 1});
+
         return new Promise((resolve, reject) => {
             const companies = data;
-            collection.remove();
-            collection.insertMany(companies, (err, res) => {
-                if (err)
-                    reject(new Error("Cannot insert"));
-                resolve(res);
-            });
+            if (companies.length > 0) {
+                collection.deleteMany({});
+                collection.insertMany(companies, (err, res) => {
+                    if (err)
+                        reject(new Error("Cannot insert"));
+                    resolve(res);
+                });
+            } else
+                reject(new Error("Cannot insert enterprises"));
         });
     };
-    const insertShortCompanies = (data) => {
+    const insertShortEnterprises = (data) => {
         const collection = db.get().collection('companiesShort');
+
         return new Promise((resolve, reject) => {
             const companies = data;
-            collection.remove();
-            collection.insertMany(companies, (err, res) => {
-                if (err)
-                    reject(new Error("Cannot insert"));
-                resolve(res);
-            });
-        });
-    };
-    const insertRegions = (data) =>{
-        const collection = db.get().collection('regions');
-        collection.createIndex( { ancestors: 1 } );
-        return new Promise((resolve, reject) => {
-            const regions = data;
-            collection.remove();
-            collection.insertMany(regions, (err, res) => {
-                if (err)
-                    reject(new Error("Cannot insert regions"));
-                resolve(res);
-            });
+            if (companies.length > 0) {
+                collection.deleteMany({});
+                collection.insertMany(companies, (err, res) => {
+                    if (err)
+                        reject(new Error("Cannot insert"));
+                    resolve(res);
+                });
+            } else
+                reject(new Error("Cannot insert enterprises"));
         });
     };
 
     return {
         getAllCompanies,
         getCompanyInfo,
-        insertFullCompanies,
-        insertShortCompanies,
-        insertRegions,
-        getCompaniesByRegion
+        getCompaniesByRegion,
+        insertFullEnterprises,
+        insertShortEnterprises,
     };
 };
 

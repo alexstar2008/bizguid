@@ -12,9 +12,28 @@ const regionsController = function () {
             });
         });
     };
+    const insertRegions = (data) =>{
+        const collection = db.get().collection('regions');
+        const regions = data;
 
+        collection.createIndex( { ancestors: 1 } );
+
+        return new Promise((resolve, reject) => {
+            if(regions.length>0){
+                collection.deleteMany({});
+                collection.insertMany(regions, (err, res) => {
+                    if (err)
+                        reject(new Error(err));
+                    resolve(res);
+                });
+            }else
+                reject(new Error("Cannot insert regions"));
+        });
+    };
     return{
-        getChildRegions
+        getChildRegions,
+        insertRegions
     };
 };
+
 module.exports = regionsController;

@@ -1,3 +1,4 @@
+'use strict';
 const router = require('express').Router();
 const regionsController = require('../controllers/regions.controller')();
 

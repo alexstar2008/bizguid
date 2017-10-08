@@ -3,22 +3,29 @@
   "version": "0.0.1",
   "description": "Bizguid - information about companies",
   "main": "index.js",
-  "engines":{
-    "node":"7.4.0",
-    "npm" : "4.0.5"
+  "engines": {
+    "node": "7.4.0",
+    "npm": "4.0.5"
   },
   "scripts": {
-    "preinstall":"",
-    "test": "",
     "start": "node index.js"
   },
   "author": "Oleksii Starovoitenko",
   "license": "ISC",
   "dependencies": {
+    "compression": "^1.7.1",
     "express": "^4.15.4",
     "helmet": "^3.8.1",
+    "jsonwebtoken": "^8.0.1",
     "mongodb": "^2.2.31",
     "morgan": "^1.8.2",
-    "mysql": "^2.14.1"
+    "mysql": "^2.14.1",
+    "pm2": "^2.7.1",
+    "response-time": "^2.3.2",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "jscs": "^3.0.7",
+    "jshint": "^2.9.5"
   }
 }
