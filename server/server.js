@@ -23,9 +23,9 @@ const start = ()=>{
         app.use('/api',routes);
 
          //transfer regions
-        transferService.transferRegions();
-        transferService.transferCategories();
-        transferService.transferEnterprises();
+        // transferService.transferRegions();
+        // transferService.transferCategories();
+        // transferService.transferEnterprises();
 
         const server = app.listen(port,()=>{resolve(server);});
     });

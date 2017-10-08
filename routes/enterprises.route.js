@@ -20,9 +20,9 @@ router.get("/:slug",(req,res,next)=>{
     });
 });
 
-router.get("/region/:slug",(req,res,next)=>{
-    const slug = req.params.slug;
-    enterprisesController.getCompaniesByRegion(slug).then((data)=>{
+router.get("/region/:id",(req,res,next)=>{
+    const id = req.params.id;
+    enterprisesController.getCompaniesByRegion(id).then((data)=>{
         res.status(200).send(data);
     });
 });
