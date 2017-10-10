@@ -2,12 +2,17 @@ const db = require('../config/db');
 
 const categoriesController = function () {
 
-    const getChildCategories = (slug="ukraine")=>{
-        console.log(slug);
+    const getChildCategories = (id)=>{
         const collection = db.get().collection('categories');
+        let query = {};
+        if(!id){
+            query = {'parent_id':null};
+        }else{
+            query = {'parent_id':id};
+        }
+
         return new Promise((resolve, reject) => {
-            collection.find({"ancestors.slug":slug}, (err, categories) => {
-                console.log(categories);
+            collection.find(query,{_id:1,slug:1,name:1}, (err, categories) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(categories.toArray());

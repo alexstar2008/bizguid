@@ -2,9 +2,9 @@
 const router = require('express').Router();
 const regionsController = require('../controllers/regions.controller')();
 
-router.get('/:slug?',(req,res)=>{
-    const slug = req.params.slug;
-    regionsController.getChildRegions(slug).then((data)=>{
+router.get('/:id?',(req,res)=>{
+    const id = req.params.id;
+    regionsController.getChildRegions(id).then((data)=>{
         res.status(200).send(data);
     });
 });

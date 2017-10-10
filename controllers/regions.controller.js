@@ -2,10 +2,16 @@ const db = require('../config/db');
 
 const regionsController = function () {
 
-    const getChildRegions = (slug="ukraine")=>{
+    const getChildRegions = (id)=>{
         const collection = db.get().collection('regions');
+        let query = {};
+        if(!id){
+            query={'slug':'ukraine'}
+        }else{
+            query={'parent_id':id}
+        }
         return new Promise((resolve, reject) => {
-            collection.find({"ancestors.slug":slug}, (err, regions) => {
+            collection.find(query,{ _id: 1, slug: 1, name:1 }, (err, regions) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(regions.toArray());
