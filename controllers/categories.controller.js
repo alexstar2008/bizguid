@@ -7,6 +7,7 @@ const categoriesController = function () {
         const collection = db.get().collection('categories');
         return new Promise((resolve, reject) => {
             collection.find({"ancestors.slug":slug}, (err, categories) => {
+                console.log(categories);
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(categories.toArray());
