@@ -40,10 +40,11 @@ const companyController = function () {
                 });
         });
     };
-    const getCompaniesByRegion = (id = 724, skip=0,limit=100) => {
+
+    const getCompaniesByRegion = (id = 724, skip = 0, limit = 100) => {
         const options = {
-            skip:+skip,
-            limit:+limit
+            skip: +skip,
+            limit: +limit
         };
         const collection = db.get().collection('companiesShort');
         return new Promise((resolve, reject) => {
@@ -54,10 +55,10 @@ const companyController = function () {
             });
         });
     };
-    const getCompaniesByCategory = (id = 724, skip=0,limit=100) => {
+    const getCompaniesByCategory = (id = 724, skip = 0, limit = 100) => {
         const options = {
-            skip:+skip,
-            limit:+limit
+            skip: +skip,
+            limit: +limit
         };
         const collection = db.get().collection('companiesShort');
         return new Promise((resolve, reject) => {
@@ -68,7 +69,34 @@ const companyController = function () {
             });
         });
     };
+    const getCompaniesByCategoryAndRegion = (categoryIds = [], regionsIds = [], skip = 0, limit = 100) => {
+        const options = {
+            skip: +skip,
+            limit: +limit
+        };
+        const collection = db.get().collection('companiesShort');
+        const query = {};
 
+        if (categoryIds.length !== 0) {
+            query.categoriesId = {
+                $in: categoryIds.split(",")
+            };
+        }
+        if (regionsIds.length !== 0) {
+            query.companyRegionsId = {
+                $in: regionsIds.split(",")
+            }
+        }
+
+        return new Promise((resolve, reject) => {
+            console.log(query);
+            collection.find(query, options, (err, enterprises) => {
+                if (err)
+                    reject(`Error of getting data:${enterprises}`);
+                resolve(enterprises.toArray());
+            });
+        });
+    };
     //PUT
     const insertFullEnterprises = (data) => {
         const collection = db.get().collection('companiesFull');
@@ -108,6 +136,7 @@ const companyController = function () {
         getAllCompanies,
         getCompanyInfo,
         getCompaniesByRegion,
+        getCompaniesByCategoryAndRegion,
         insertFullEnterprises,
         insertShortEnterprises,
     };

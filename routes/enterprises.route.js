@@ -13,6 +13,13 @@ router.get("/",(req,res,next)=>{
     });
 });
 
+router.get("/search",(req,res,next)=>{
+    const {categoryIds,regionIds,offset,amount}  = req.query;
+    enterprisesController.getCompaniesByCategoryAndRegion(categoryIds,regionIds,offset,amount).then((data)=>{
+        res.status(200).send(data);
+    })
+});
+
 router.get("/:slug",(req,res,next)=>{
     const slug = req.params.slug;
     enterprisesController.getCompanyInfo(slug).then((data)=>{
