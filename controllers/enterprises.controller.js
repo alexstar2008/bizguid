@@ -12,9 +12,11 @@ const companyController = function () {
                 limit: +limit
             };
             collection.find({}, {
-                categoriesId: -1,
-                companyRegionsId: -1,
-                productsAndOffers: -1
+                _id:1,
+                slug:1,
+                name:1,
+                emails:1,
+                phones:1
             }, options, (err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
