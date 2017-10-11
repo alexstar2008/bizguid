@@ -77,7 +77,7 @@ const fullEnterprise = {
         return branches;
     },
     "trademarks": "trade_mark",
-    "categoriesId": (company,matchTables) => {
+    "categoriesId": (company, matchTables) => {
         let categories = null;
         const categoriesMatchTable = matchTables.categoriesIds;
         if (company.catalog_kved_mva) {
@@ -145,7 +145,7 @@ const shortEnterprise = {
         return phone;
     },
     "productsAndOffers": "prod_russian",
-    "categoriesId": (company,matchTables) => {
+    "categoriesId": (company, matchTables) => {
         let categories = null;
         const categoriesMatchTable = matchTables.categoriesIds;
         if (company.catalog_kved_mva) {

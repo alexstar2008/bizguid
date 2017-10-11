@@ -11,7 +11,11 @@ const companyController = function () {
                 skip: +skip,
                 limit: +limit
             };
-            collection.find({}, options, (err, companies) => {
+            collection.find({}, {
+                categoriesId: -1,
+                companyRegionsId: -1,
+                productsAndOffers: -1
+            }, options, (err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(companies.toArray());
@@ -23,50 +27,22 @@ const companyController = function () {
         return new Promise((resolve, reject) => {
             collection.findOne(
                 {'slug': slug},
-                {
-                    '_id': 1,
-                    'slug': 1,
-                    'name': 1,
-                    'logo': 1,
-                    'emails': 1,
-                    'products': 1,
-                    'description': 1,
-                    'details': 1,
-                    'bankDetails': 1
-                }, (err, company) => {
+                // {
+                //     '_id': 1,
+                //     'slug': 1,
+                //     'name': 1,
+                //     'logo': 1,
+                //     'emails': 1,
+                //     'products': 1,
+                //     'description': 1,
+                //     'details': 1,
+                //     'bankDetails': 1
+                // },
+                (err, company) => {
                     if (err)
                         reject(new Error("Error of getting data" + err));
                     resolve(company);
                 });
-        });
-    };
-
-    const getCompaniesByRegion = (id = 724, skip = 0, limit = 100) => {
-        const options = {
-            skip: +skip,
-            limit: +limit
-        };
-        const collection = db.get().collection('companiesShort');
-        return new Promise((resolve, reject) => {
-            collection.find({'companyRegionsId': id}, options, (err, companies) => {
-                if (err)
-                    reject(new Error("Error of getting data" + err));
-                resolve(companies.toArray());
-            });
-        });
-    };
-    const getCompaniesByCategory = (id = 724, skip = 0, limit = 100) => {
-        const options = {
-            skip: +skip,
-            limit: +limit
-        };
-        const collection = db.get().collection('companiesShort');
-        return new Promise((resolve, reject) => {
-            collection.find({'categoriesId': id}, options, (err, enterprises) => {
-                if (err)
-                    reject(new Error("Error of getting data" + err));
-                resolve(enterprises.toArray());
-            });
         });
     };
     const getCompaniesByCategoryAndRegion = (categoryIds = [], regionsIds = [], skip = 0, limit = 100) => {
@@ -97,6 +73,37 @@ const companyController = function () {
             });
         });
     };
+
+    //TEST SECTION
+    const getCompaniesByRegion = (id = 724, skip = 0, limit = 100) => {
+        const options = {
+            skip: +skip,
+            limit: +limit
+        };
+        const collection = db.get().collection('companiesShort');
+        return new Promise((resolve, reject) => {
+            collection.find({'companyRegionsId': id}, options, (err, companies) => {
+                if (err)
+                    reject(new Error("Error of getting data" + err));
+                resolve(companies.toArray());
+            });
+        });
+    };
+    const getCompaniesByCategory = (id = 724, skip = 0, limit = 100) => {
+        const options = {
+            skip: +skip,
+            limit: +limit
+        };
+        const collection = db.get().collection('companiesShort');
+        return new Promise((resolve, reject) => {
+            collection.find({'categoriesId': id}, options, (err, enterprises) => {
+                if (err)
+                    reject(new Error("Error of getting data" + err));
+                resolve(enterprises.toArray());
+            });
+        });
+    };
+
     //PUT
     const insertFullEnterprises = (data) => {
         const collection = db.get().collection('companiesFull');
@@ -117,6 +124,9 @@ const companyController = function () {
     };
     const insertShortEnterprises = (data) => {
         const collection = db.get().collection('companiesShort');
+
+        collection.createIndex({categoriesId: 1});
+        collection.createIndex({companyRegionsId: 1});
 
         return new Promise((resolve, reject) => {
             const companies = data;

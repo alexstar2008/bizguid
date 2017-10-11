@@ -16,7 +16,7 @@ const country = {
         },
     ]
 };
-const createSubRegionSchema = ()=> {
+const createSubRegionSchema = () => {
     return {
         "_id": new ObjectID().toString(),
         "slug": (company) => {
@@ -40,4 +40,4 @@ const createSubRegionSchema = ()=> {
     }
 };
 
-module.exports = {world,country,createSubRegionSchema};
+module.exports = {world, country, createSubRegionSchema};

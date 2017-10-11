@@ -44,7 +44,7 @@ const createLowSchema = (highLevelSchema, mediumLevelSchema) => {
     };
 };
 
-const createHighSchema = ()=> {
+const createHighSchema = () => {
     return {
         "_id": new ObjectID().toString(),
         "slug": (category) => {

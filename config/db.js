@@ -23,8 +23,8 @@ const get = function () {
     return connection.db;
 };
 const disconnect = function () {
-    if(connection.db)
+    if (connection.db)
         connection.db.disconnect();
 };
 
-module.exports = {connect,get,disconnect};
+module.exports = {connect, get, disconnect};

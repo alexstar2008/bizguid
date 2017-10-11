@@ -1,6 +1,6 @@
 const db = require('./db-mysql');
 const {enterpriseSchema, regionSchema, categorySchema} = require('./schema/schemas');
-const parser = require('./schema/helpers/parser');
+const parser = require('./helpers/parser');
 
 const enterprisesController = require('../controllers/enterprises.controller')();
 const regionsController = require('../controllers/regions.controller')();
@@ -32,8 +32,8 @@ const transfer = function () {
                 for (let i = 0; i < enterprisesLength; i++) {
                     const enterprise = enterprises[i];
 
-                    const filteredFullEnterprise = parser.getFieldsBySchema(enterpriseSchema.fullEnterprise, enterprise,matchTables);
-                    const filteredShortEnterprise = parser.getFieldsBySchema(enterpriseSchema.shortEnterprise, enterprise,matchTables);
+                    const filteredFullEnterprise = parser.getFieldsBySchema(enterpriseSchema.fullEnterprise, enterprise, matchTables);
+                    const filteredShortEnterprise = parser.getFieldsBySchema(enterpriseSchema.shortEnterprise, enterprise, matchTables);
 
                     filteredFullEnterprises.push(filteredFullEnterprise);
                     filteredShortEnterprises.push(filteredShortEnterprise);
@@ -52,23 +52,32 @@ const transfer = function () {
             // const worldId = 724;
             // const countriesSql = "SELECT id,name_ukrainian,name_english FROM catalog_koatuu WHERE level = 1 AND id=1";
             const subRegionsSql = "SELECT id,name_ukrainian,name_english FROM catalog_koatuu WHERE level=2";
+            const citiesSubRegionsSql = "SELECT id,parent_id,name_ukrainian,name_english FROM catalog_koatuu WHERE level=3";
 
             conn.query(subRegionsSql, (err, subRegions) => {
                 if (err)
                     console.log(err);
 
-                matchTables.regionsIds.set(724, regionSchema.world._id);
-                matchTables.regionsIds.set(1, regionSchema.country._id);
+                conn.query(citiesSubRegionsSql,(err,citiesSubRegions)=>{
 
-                const filteredSubRegions = subRegions.map((subRegion) => {
-                    const filteredSubRegion = parser.getFieldsBySchemaWithPredefined(regionSchema.createSubRegionSchema(), subRegion);
+                    matchTables.regionsIds.set(724, regionSchema.world._id);
+                    matchTables.regionsIds.set(1, regionSchema.country._id);
 
-                    matchTables.regionsIds.set(subRegion.id, filteredSubRegion._id);
-                    return filteredSubRegion;
+                    const filteredSubRegions = subRegions.map((subRegion) => {
+                        const filteredSubRegion = parser.getFieldsBySchemaWithPredefined(regionSchema.createSubRegionSchema(), subRegion);
+
+                        //TODO parser for sub sub region
+                        const citiesSubRegion  = citiesSubRegions.filter((citiesSubRegion)=>{
+                            return citiesSubRegion.parent_id === subRegion.id;
+                        });
+
+                        matchTables.regionsIds.set(subRegion.id, filteredSubRegion._id);
+                        return filteredSubRegion;
+                    });
+                    const filteredRegions = [regionSchema.world, regionSchema.country].concat(filteredSubRegions);
+
+                    // regionsController.insertRegions(filteredRegions);
                 });
-                const filteredRegions = [regionSchema.world, regionSchema.country].concat(filteredSubRegions);
-
-                regionsController.insertRegions(filteredRegions);
             });
         });
     };

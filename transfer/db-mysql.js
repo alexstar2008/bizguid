@@ -16,7 +16,7 @@ const connect = function () {
     });
 };
 const get = function () {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
         state.pool.getConnection((err, conn) => {
             if (err)
                 reject(err);

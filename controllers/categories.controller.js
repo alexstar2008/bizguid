@@ -2,17 +2,17 @@ const db = require('../config/db');
 
 const categoriesController = function () {
 
-    const getChildCategories = (id)=>{
+    const getChildCategories = (id) => {
         const collection = db.get().collection('categories');
         let query = {};
-        if(!id){
-            query = {'parent_id':null};
-        }else{
-            query = {'parent_id':id};
+        if (!id) {
+            query = {'parent_id': null};
+        } else {
+            query = {'parent_id': id};
         }
 
         return new Promise((resolve, reject) => {
-            collection.find(query,{_id:1,slug:1,name:1}, (err, categories) => {
+            collection.find(query, {_id: 1, slug: 1, name: 1}, (err, categories) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
                 resolve(categories.toArray());
@@ -20,25 +20,25 @@ const categoriesController = function () {
         });
     };
 
-    const insertCategories = (data) =>{
+    const insertCategories = (data) => {
         const collection = db.get().collection('categories');
         const categories = data;
 
         // collection.createIndex( { ancestors: 1 } );
 
         return new Promise((resolve, reject) => {
-            if(categories.length>0){
+            if (categories.length > 0) {
                 collection.deleteMany({});
                 collection.insertMany(categories, (err, res) => {
                     if (err)
                         reject(new Error(err));
                     resolve(res);
                 });
-            }else
+            } else
                 reject(new Error("Cannot insert categories"));
         });
     };
-    return{
+    return {
         getChildCategories,
         insertCategories
     };

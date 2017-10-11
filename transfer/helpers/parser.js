@@ -1,4 +1,4 @@
-const getFieldsBySchema = (schema, company, matchTables={}) => {
+const getFieldsBySchema = (schema, company, matchTables = {}) => {
     const filterCompany = {};
 
     for (let schemaKey in schema) {
@@ -9,7 +9,7 @@ const getFieldsBySchema = (schema, company, matchTables={}) => {
                 filterCompany[schemaKey] = company[value];
         }
         else if (typeof value === 'function') {
-            const result = value(company,matchTables);
+            const result = value(company, matchTables);
             if (result)
                 filterCompany[schemaKey] = result;
         }
