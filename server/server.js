@@ -12,7 +12,7 @@ const start = () => {
         }
 
         //transfer regions
-        transferService.transferRegions();
+        // transferService.transferRegions();
         // transferService.transferCategories();
         // transferService.transferEnterprises();
 
