@@ -11,7 +11,7 @@ const start = () => {
             reject(new Error("Port should be specified"));
         }
 
-        //transfer regions
+        // transfer regions
         // transferService.transferRegions();
         // transferService.transferCategories();
         // transferService.transferEnterprises();

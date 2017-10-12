@@ -54,7 +54,7 @@ const companyController = function () {
         };
         const collection = db.get().collection('companiesShort');
         const query = {};
-
+        console.log(query);
         if (categoryIds.length !== 0) {
             query.categoriesId = {
                 $in: categoryIds.split(",")
@@ -118,6 +118,7 @@ const companyController = function () {
                 collection.insertMany(companies, (err, res) => {
                     if (err)
                         reject(new Error("Cannot insert"));
+                    console.log('transfered full');
                     resolve(res);
                 });
             } else
@@ -137,6 +138,7 @@ const companyController = function () {
                 collection.insertMany(companies, (err, res) => {
                     if (err)
                         reject(new Error("Cannot insert"));
+                    console.log('transfered short');
                     resolve(res);
                 });
             } else

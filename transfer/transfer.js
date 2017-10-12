@@ -67,16 +67,21 @@ const transfer = function () {
                         const filteredSubRegion = parser.getFieldsBySchemaWithPredefined(regionSchema.createSubRegionSchema(), subRegion);
 
                         //TODO parser for sub sub region
-                        const citiesSubRegion  = citiesSubRegions.filter((citiesSubRegion)=>{
-                            return citiesSubRegion.parent_id === subRegion.id;
-                        });
+                        // const citiesSubRegion  = citiesSubRegions.filter((citiesSubRegion)=>{
+                        //     return citiesSubRegion.parent_id === subRegion.id;
+                        // });
+                        // citiesSubRegion.forEach((city)=>{
+                        //     const filteredCity = parser.getFieldsBySchemaWithPredefined(regionSchema.createCitySubRegionSchema(filteredSubRegion),city);
+                        //     matchTables.regionsIds.set(city.id, filteredCity._id);
+                        // });
+
 
                         matchTables.regionsIds.set(subRegion.id, filteredSubRegion._id);
                         return filteredSubRegion;
                     });
                     const filteredRegions = [regionSchema.world, regionSchema.country].concat(filteredSubRegions);
 
-                    // regionsController.insertRegions(filteredRegions);
+                    regionsController.insertRegions(filteredRegions);
                 });
             });
         });
