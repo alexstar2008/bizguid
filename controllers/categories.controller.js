@@ -20,24 +20,24 @@ const categoriesController = function () {
         });
     };
 
+    //INSERT
     const insertCategories = (data) => {
         const collection = db.get().collection('categories');
-        const categories = data;
-
-        // collection.createIndex( { ancestors: 1 } );
 
         return new Promise((resolve, reject) => {
+            const categories = data;
             if (categories.length > 0) {
                 collection.deleteMany({});
-                collection.insertMany(categories, (err, res) => {
+                collection.insertMany(categories, (err) => {
                     if (err)
-                        reject(new Error(err));
-                    resolve(res);
+                        reject("Insertion error(empty):[Categories]");
+                    resolve("Transferred:[Categories]");
                 });
             } else
-                reject(new Error("Cannot insert categories"));
+                reject("Insertion error(empty):[Categories]");
         });
     };
+
     return {
         getChildCategories,
         insertCategories

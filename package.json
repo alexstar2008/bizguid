@@ -1,14 +1,15 @@
 {
   "name": "bizguid",
   "version": "0.0.1",
-  "description": "Bizguid - information about companies",
-  "main": "index.js",
+  "description": "Bizguid - information about enterprises",
+  "main": "app.js",
   "engines": {
     "node": "7.4.0",
     "npm": "4.0.5"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node app.js",
+    "serve": "nodemon app.js"
   },
   "author": "Oleksii Starovoitenko",
   "license": "ISC",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "jscs": "^3.0.7",
-    "jshint": "^2.9.5"
+    "jshint": "^2.9.5",
+    "nodemon": "^1.12.1"
   }
 }

@@ -18,22 +18,25 @@ const regionsController = function () {
             });
         });
     };
+
+    //INSERT
     const insertRegions = (data) => {
         const collection = db.get().collection('regions');
-        const regions = data;
 
         return new Promise((resolve, reject) => {
+            const regions = data;
             if (regions.length > 0) {
                 collection.deleteMany({});
-                collection.insertMany(regions, (err, res) => {
+                collection.insertMany(regions, (err) => {
                     if (err)
-                        reject(new Error(err));
-                    resolve(res);
+                        reject("Insertion error:[Regions]");
+                    resolve("Transferred:[Regions]");
                 });
             } else
-                reject(new Error("Cannot insert regions"));
+                reject("Insertion error(empty):[Regions]");
         });
     };
+
     return {
         getChildRegions,
         insertRegions

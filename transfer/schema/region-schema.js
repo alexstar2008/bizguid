@@ -48,7 +48,7 @@ const createCitySubRegionSchema = (subRegion) => {
                 return city.name_english.toLowerCase();
         },
         "name": "name_ukrainian",
-        "parent_id": country._id,
+        "parent_id": subRegion._id,
         "ancestors": [
             {
                 "name": "Весь світ",

@@ -8,16 +8,18 @@ const transferService = require('../transfer/transfer.js')();
 const start = () => {
     return new Promise((resolve, reject) => {
         if (!port) {
-            reject(new Error("Port should be specified"));
+            reject("[Server]:ERROR start");
         }
 
         // transfer regions
-        // transferService.transferRegions();
-        // transferService.transferCategories();
-        // transferService.transferEnterprises();
+        transferService.transferRegions();
+        transferService.transferCategories();
+        transferService.transferEnterprises();
 
-        const server = app.listen(port, () => {
-            resolve(server);
+        app.listen(port, (err) => {
+            if(err)
+                reject("[Server]:ERROR start");
+            resolve(`[Server]:started at port ${port}`);
         });
     });
 };

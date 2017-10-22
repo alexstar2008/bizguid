@@ -1,3 +1,5 @@
+'use strict';
+
 const dbSettings = {
     mongoDb: {
         db: process.env.MONGO_DB || 'bizguid',
@@ -15,7 +17,7 @@ const dbSettings = {
     }
 };
 const serverSettings = {
-    port: process.env.PORT || 3009
+    port: process.env.PORT || 3000
 };
 
 module.exports = {dbSettings, serverSettings};

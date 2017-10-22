@@ -43,7 +43,6 @@ const createLowSchema = (highLevelSchema, mediumLevelSchema) => {
         ]
     };
 };
-
 const createHighSchema = () => {
     return {
         "_id": new ObjectID().toString(),

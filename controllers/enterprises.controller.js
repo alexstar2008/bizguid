@@ -106,7 +106,7 @@ const companyController = function () {
         });
     };
 
-    //PUT
+    //INSERT
     const insertFullEnterprises = (data) => {
         const collection = db.get().collection('companiesFull');
         collection.createIndex({slug: 1});
@@ -115,19 +115,17 @@ const companyController = function () {
             const companies = data;
             if (companies.length > 0) {
                 collection.deleteMany({});
-                collection.insertMany(companies, (err, res) => {
+                collection.insertMany(companies, (err) => {
                     if (err)
-                        reject(new Error("Cannot insert"));
-                    console.log('transfered full');
-                    resolve(res);
+                        reject("Insertion error:[Full enterprises]");
+                    resolve("Transferred:[Full enterprises]");
                 });
             } else
-                reject(new Error("Cannot insert enterprises"));
+                reject("Insertion error(empty):[Full enterprises]");
         });
     };
     const insertShortEnterprises = (data) => {
         const collection = db.get().collection('companiesShort');
-
         collection.createIndex({categoriesId: 1});
         collection.createIndex({companyRegionsId: 1});
 
@@ -135,14 +133,13 @@ const companyController = function () {
             const companies = data;
             if (companies.length > 0) {
                 collection.deleteMany({});
-                collection.insertMany(companies, (err, res) => {
+                collection.insertMany(companies, (err) => {
                     if (err)
-                        reject(new Error("Cannot insert"));
-                    console.log('transfered short');
-                    resolve(res);
+                        reject("Insertion error:[Short enterprises]");
+                    resolve("Transferred:[Short enterprises]");
                 });
             } else
-                reject(new Error("Cannot insert enterprises"));
+                reject("Insertion error(empty):[Short enterprises]");
         });
     };
 
