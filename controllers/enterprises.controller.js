@@ -16,7 +16,8 @@ const companyController = function () {
                 slug: 1,
                 name: 1,
                 emails: 1,
-                phones: 1
+                phones: 1,
+                regionName:1
             }, options, (err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
