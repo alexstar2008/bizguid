@@ -12,9 +12,9 @@ const start = () => {
         }
 
         // transfer regions
-        transferService.transferRegions();
-        transferService.transferCategories();
-        transferService.transferEnterprises();
+        // transferService.transferRegions();
+        // transferService.transferCategories();
+        // transferService.transferEnterprises();
 
         app.listen(port, (err) => {
             if(err)

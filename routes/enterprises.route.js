@@ -17,7 +17,19 @@ router.get("/search", (req, res, next) => {
     const {categoryIds, regionIds, offset, amount} = req.query;
     enterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
         res.status(200).send(data);
-    })
+    });
+});
+//TEST: section for search indexes
+router.get("/verify-text-indexes",(req,res,next)=>{
+    enterprisesController.verifyIndexes().then((data)=>{
+      res.status(200).send(data);
+    });
+});
+router.get("/text-search/:text",(req,res,next)=>{
+    const textSearch = req.params.text;
+    enterprisesController.getCompaniesByTextSearch(textSearch).then((data)=>{
+        res.status((200)).send(data);
+    });
 });
 
 router.get("/:slug", (req, res, next) => {

@@ -12,11 +12,11 @@ const companyController = function () {
                 limit: +limit
             };
             collection.find({}, {
-                _id:1,
-                slug:1,
-                name:1,
-                emails:1,
-                phones:1
+                _id: 1,
+                slug: 1,
+                name: 1,
+                emails: 1,
+                phones: 1
             }, options, (err, companies) => {
                 if (err)
                     reject(new Error("Error of getting data" + err));
@@ -76,7 +76,31 @@ const companyController = function () {
         });
     };
 
+    //TEXT SEARCH
+    const getCompaniesByTextSearch = (textSearch = "") => {
+        const collection = db.get().collection('companiesShort');
+        return new Promise((resolve, reject) => {
+            collection.find({$text: {$search: textSearch}}, {score: {$meta: "textScore"}}, (err, data) => {
+                if (err) {
+                    reject("Error of getting data" + err);
+                }
+                resolve(data.sort({score: {$meta: "textScore"}}).toArray());
+            });
+        });
+    };
     //TEST SECTION
+    const verifyIndexes = () => {
+        return new Promise((resolve, reject) => {
+            const collection = db.get().collection('companiesShort');
+            collection.createIndex(
+                {"name": "text", "productsAndOffers": "text"},
+                {
+                    default_language: "russian",
+                    "weights": {name:+ 3, productsAndOffers: 1}
+                });
+            resolve('done');
+        });
+    };
     const getCompaniesByRegion = (id = 724, skip = 0, limit = 100) => {
         const options = {
             skip: +skip,
@@ -144,12 +168,14 @@ const companyController = function () {
     };
 
     return {
+        getCompaniesByTextSearch,
         getAllCompanies,
         getCompanyInfo,
         getCompaniesByRegion,
         getCompaniesByCategoryAndRegion,
         insertFullEnterprises,
         insertShortEnterprises,
+        verifyIndexes
     };
 };
 
