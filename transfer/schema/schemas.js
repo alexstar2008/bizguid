@@ -5,8 +5,8 @@ const regionSchema = require('./region-schema');
 const enterpriseSchema = require('./enterpise-schema');
 
 const schema = {
-    enterpriseSchema,
-    categorySchema,
-    regionSchema
+	enterpriseSchema,
+	categorySchema,
+	regionSchema
 };
 module.exports = schema;
