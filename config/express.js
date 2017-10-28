@@ -2,6 +2,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const compression = require('compression');
 
 const logger = require('./winston');
 const routes = require('../routes/index.route');
@@ -9,6 +10,7 @@ const routes = require('../routes/index.route');
 const app = express();
 app.use(helmet());
 app.use(cors());
+app.use(compression());
 
 app.use('/api', routes);
 app.use((err, req, res) => {
