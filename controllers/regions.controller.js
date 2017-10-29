@@ -1,5 +1,6 @@
 'use strict';
 const db = require('../config/db');
+const ApiError = require('../helpers/ApiError');
 
 const regionsController = function () {
 	//Get
@@ -14,7 +15,7 @@ const regionsController = function () {
 		return new Promise((resolve, reject) => {
 			collection.find(query, {_id: 1, slug: 1, name: 1}, (err, regions) => {
 				if (err)
-					reject(new Error('Error of getting data' + err));
+					reject(new ApiError(`Error of getting data${err}`));
 				resolve(regions.toArray());
 			});
 		});

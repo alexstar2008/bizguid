@@ -1,5 +1,7 @@
 FORMAT: 1A
 
+HOST: https://bizguid.herokuapp.com
+
 # Bizguid
 
 Bizguid API allowing client applications to get information about ukrainian enterprises

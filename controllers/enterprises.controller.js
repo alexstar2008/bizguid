@@ -1,6 +1,8 @@
 'use strict';
 const db = require('../config/db');
 
+const ApiError = require('../helpers/ApiError');
+
 const companyController = function () {
 	//Get
 	const getAllCompanies = (skip = 0, limit = 100) => {
@@ -13,7 +15,7 @@ const companyController = function () {
 			};
 			collection.count({}, (err, totalAmountEnterprises) => {
 				if (err)
-					return reject(new Error('Error of getting data' + err));
+					return reject(new ApiError(`Error of getting data(${err})`));
 				collection.find({}, {
 					_id: 1,
 					slug: 1,
@@ -23,7 +25,7 @@ const companyController = function () {
 					regionName: 1
 				}, options).toArray((err, enterprises) => {
 					if (err)
-						return reject(new Error('Error of getting data' + err));
+						return reject(new ApiError(`Error of getting data(${err})`));
 					resolve({enterprises, totalAmountEnterprises});
 				});
 			});
@@ -37,7 +39,7 @@ const companyController = function () {
 				{'slug': slug},
 				(err, company) => {
 					if (err)
-						return reject(new Error('Error of getting data'));
+						return reject(new ApiError(`Error of getting data(${err})`));
 					resolve(company);
 				});
 		});
@@ -63,10 +65,10 @@ const companyController = function () {
 		return new Promise((resolve, reject) => {
 			collection.count(query, (err, totalAmountEnterprises) => {
 				if (err)
-					return reject(`Error of getting data:${err}`);
+					return reject(new ApiError(`Error of getting data(${err})`));
 				collection.find(query, options).toArray((err, enterprises) => {
 					if (err)
-						return reject(`Error of getting data:${err}`);
+						return reject(new ApiError(`Error of getting data(${err})`));
 					resolve({enterprises, totalAmountEnterprises});
 				});
 			});
@@ -85,11 +87,11 @@ const companyController = function () {
 			const query = {$text: {$search: textSearch}};
 			collection.count(query, (err, totalAmountEnterprises) => {
 				if (err) {
-					return reject('Error of getting data' + err);
+					return reject(new ApiError(`Error of getting data(${err})`));
 				}
-				collection.find(query, projection,options).sort({score: {$meta: 'textScore'}}).toArray((err, enterprises) => {
+				collection.find(query, projection, options).sort({score: {$meta: 'textScore'}}).toArray((err, enterprises) => {
 					if (err) {
-						return reject('Error of getting data' + err);
+						return reject(new ApiError(`Error of getting data(${err})`));
 					}
 					resolve({totalAmountEnterprises, enterprises});
 				});

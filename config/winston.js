@@ -3,7 +3,7 @@ const winston = require('winston');
 const {combine, timestamp, printf} = winston.format;
 
 const logFormat = printf(info => {
-	return `${info.timestamp}|${info.level}: ${info.message}`;
+	return `${info.timestamp}[${info.level}-${info.status}]: ${info.message}`;
 });
 const logger = winston.createLogger({
 	level: 'info',
