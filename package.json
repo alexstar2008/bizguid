@@ -1,6 +1,6 @@
 {
   "name": "bizguid",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "description": "Bizguid - information about enterprises",
   "main": "app.js",
   "engines": {

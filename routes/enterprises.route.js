@@ -8,7 +8,16 @@ const enterprisesController = require('../controllers/enterprises.controller')()
 router.get('/', (req, res, next) => {
 	const {offset, amount} = req.query;
 	enterprisesController.getAllCompanies(offset, amount).then((data) => {
-		res.status(200).send(data);
+		const {enterprises, totalAmountEnterprises} = data;
+		res.header('X-total-count', totalAmountEnterprises).status(200).send(enterprises);
+	}).catch(next);
+});
+//Category&Region
+router.get('/search', (req, res, next) => {
+	const {categoryIds, regionIds, offset, amount} = req.query;
+	enterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
+		const {enterprises, totalAmountEnterprises} = data;
+		res.header('X-total-count', totalAmountEnterprises).status(200).send(enterprises);
 	}).catch(next);
 });
 //Slug
@@ -18,18 +27,12 @@ router.get('/:slug', (req, res, next) => {
 		res.status(200).send(data);
 	}).catch(next);
 });
-//Category&Region
-router.get('/search', (req, res, next) => {
-	const {categoryIds, regionIds, offset, amount} = req.query;
-	enterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
-		res.status(200).send(data);
-	}).catch(next);
-});
 //Text
 router.get('/text-search/:text', (req, res, next) => {
 	const textSearch = req.params.text;
 	enterprisesController.getCompaniesByTextSearch(textSearch).then((data) => {
-		res.status((200)).send(data);
+		const {enterprises, totalAmountEnterprises} = data;
+		res.header('X-total-count', totalAmountEnterprises).status(200).send(enterprises);
 	}).catch(next);
 });
 

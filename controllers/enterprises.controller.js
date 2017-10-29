@@ -11,18 +11,23 @@ const companyController = function () {
 				skip: +skip,
 				limit: +limit
 			};
-			collection.find({}, {
-				_id: 1,
-				slug: 1,
-				name: 1,
-				emails: 1,
-				phones: 1,
-				regionName: 1
-			}, options, (err, companies) => {
+			collection.count({}, (err, totalAmountEnterprises) => {
 				if (err)
-					reject(new Error('Error of getting data' + err));
-				resolve(companies.toArray());
+					return reject(new Error('Error of getting data' + err));
+				collection.find({}, {
+					_id: 1,
+					slug: 1,
+					name: 1,
+					emails: 1,
+					phones: 1,
+					regionName: 1
+				}, options).toArray((err, enterprises) => {
+					if (err)
+						return reject(new Error('Error of getting data' + err));
+					resolve({enterprises, totalAmountEnterprises});
+				});
 			});
+
 		});
 	};
 	const getCompanyInfo = (slug) => {
@@ -32,7 +37,7 @@ const companyController = function () {
 				{'slug': slug},
 				(err, company) => {
 					if (err)
-						reject(new Error('Error of getting data'));
+						return reject(new Error('Error of getting data'));
 					resolve(company);
 				});
 		});
@@ -56,21 +61,38 @@ const companyController = function () {
 		}
 
 		return new Promise((resolve, reject) => {
-			collection.find(query, options, (err, enterprises) => {
+			collection.count(query, (err, totalAmountEnterprises) => {
 				if (err)
-					reject(`Error of getting data:${enterprises}`);
-				resolve(enterprises.toArray());
+					return reject(`Error of getting data:${err}`);
+				collection.find(query, options).toArray((err, enterprises) => {
+					if (err)
+						return reject(`Error of getting data:${err}`);
+					resolve({enterprises, totalAmountEnterprises});
+				});
 			});
 		});
 	};
-	const getCompaniesByTextSearch = (textSearch = '') => {
+	const getCompaniesByTextSearch = (textSearch = '', skip = 0, limit = 100) => {
+		const projection = {
+			score: {$meta: 'textScore'}
+		};
+		const options = {
+			skip: +skip,
+			limit: +limit
+		};
 		const collection = db.get().collection('companiesShort');
 		return new Promise((resolve, reject) => {
-			collection.find({$text: {$search: textSearch}}, {score: {$meta: 'textScore'}}, (err, data) => {
+			const query = {$text: {$search: textSearch}};
+			collection.count(query, (err, numOfEnterprises) => {
 				if (err) {
-					reject('Error of getting data' + err);
+					return reject('Error of getting data' + err);
 				}
-				resolve(data.sort({score: {$meta: 'textScore'}}).toArray());
+				collection.find(query, projection,options).sort({score: {$meta: 'textScore'}}).toArray((err, enterprises) => {
+					if (err) {
+						return reject('Error of getting data' + err);
+					}
+					resolve({numOfEnterprises, enterprises});
+				});
 			});
 		});
 	};
