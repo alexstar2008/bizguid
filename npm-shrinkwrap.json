@@ -2577,7 +2577,7 @@
         }
       }
     },
-    "w  inston": {
+    "winston": {
       "version": "3.0.0-rc1",
       "from": "winston@next",
       "resolved": "https://registry.npmjs.org/winston/-/winston-3.0.0-rc1.tgz",
