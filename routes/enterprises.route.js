@@ -30,7 +30,8 @@ router.get('/:slug', (req, res, next) => {
 //Text
 router.get('/text-search/:text', (req, res, next) => {
 	const textSearch = req.params.text;
-	enterprisesController.getCompaniesByTextSearch(textSearch).then((data) => {
+	const {offset, amount} = req.query;
+	enterprisesController.getCompaniesByTextSearch(textSearch,offset,amount).then((data) => {
 		const {enterprises, totalAmountEnterprises} = data;
 		res.header('X-total-count', totalAmountEnterprises).status(200).send(enterprises);
 	}).catch(next);

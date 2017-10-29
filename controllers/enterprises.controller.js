@@ -83,7 +83,7 @@ const companyController = function () {
 		const collection = db.get().collection('companiesShort');
 		return new Promise((resolve, reject) => {
 			const query = {$text: {$search: textSearch}};
-			collection.count(query, (err, numOfEnterprises) => {
+			collection.count(query, (err, totalAmountEnterprises) => {
 				if (err) {
 					return reject('Error of getting data' + err);
 				}
@@ -91,7 +91,7 @@ const companyController = function () {
 					if (err) {
 						return reject('Error of getting data' + err);
 					}
-					resolve({numOfEnterprises, enterprises});
+					resolve({totalAmountEnterprises, enterprises});
 				});
 			});
 		});
