@@ -10,7 +10,7 @@
   "scripts": {
     "preinstall": "npm install pm2 -g",
     "lint": "eslint . --quiet",
-    "start": "pm2 start processes.json",
+    "start": "node app.js",
     "serve": "nodemon app.js"
   },
   "author": "Oleksii Starovoitenko",
