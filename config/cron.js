@@ -18,8 +18,8 @@ const Tasks = [
 
 module.exports = {
 	start() {
-		Tasks.forEach((task) => {
-			new CronJob(task).start();
-		});
+		// Tasks.forEach((task) => {
+		// 	new CronJob(task).start();
+		// });
 	}
 };

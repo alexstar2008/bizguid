@@ -12,7 +12,7 @@ const HTTPstatus = require('http-status');
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({exposedHeaders:['X-Response-Time','X-Total-Count']}));
 app.use(compression());
 app.use(responseTime());
 
