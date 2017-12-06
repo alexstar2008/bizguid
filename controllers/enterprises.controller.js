@@ -176,6 +176,25 @@ const companyController = function () {
 		});
 	};
 
+	// TODO: change getting additional info to main section
+	const getAdditionalInfo = (regionIds = [],categoryIds = []) => {
+		const regionCollection = db.get().collection('regions');
+		const categoryCollection = db.get().collection('categories');
+
+		const projection = {'_id':1,'name':1};
+		return new Promise((resolve,reject)=>{
+			regionCollection.find({'_id':{$in:regionIds}},projection).toArray((err,regions)=>{
+				if(err)
+					reject(new Error('Error of getting data' + err));
+				categoryCollection.find({'_id':{$in:categoryIds}},projection).toArray((err,categories)=>{
+					if(err)
+						reject(new Error('Error of getting data' + err));
+					resolve({regions,categories});
+				});
+			});
+		});
+	};
+
 	return {
 		getAllCompanies,
 		getCompanyInfo,
@@ -185,7 +204,8 @@ const companyController = function () {
 		insertShortEnterprises,
 		verifyIndexes,
 		getCompaniesByRegion,
-		getCompaniesByCategory
+		getCompaniesByCategory,
+		getAdditionalInfo
 	};
 };
 
