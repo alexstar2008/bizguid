@@ -51,3 +51,7 @@ typings/
 # dotenv environment variables file
 .env
 tests/
+
+# Custom ignore
+.docker
+config/config.js
