@@ -1,5 +1,6 @@
 'use strict';
 
+const { ObjectId } = require('mongodb');
 const db = require('../libs/db');
 
 async function getAdditionalInfoList(req, res) {
@@ -20,10 +21,20 @@ async function addAdditionalInfoRequest(req, res) {
         additionalInfoId
     });
 }
+async function removeAdditionalInfoRequest(req, res) {
+    const { additionalInfoId } = req.params;
+    const collection = db.get().collection('additionalInfo');
+    await collection.deleteOne({ _id: new ObjectId(additionalInfoId) });
 
+    res.json({
+        success: true,
+        additionalInfoId
+    });
+}
 const AdditionalInfo = {
     getAdditionalInfoList,
-    addAdditionalInfoRequest
+    addAdditionalInfoRequest,
+    removeAdditionalInfoRequest
 };
 
 module.exports = AdditionalInfo;

@@ -8,6 +8,7 @@ const AdditionalInfoController = require('./additionalInfo.controller');
 const AdditionalInfoValidation = require('./validation');
 
 router.get('/', AdditionalInfoController.getAdditionalInfoList);
+router.delete('/:additionalInfoId', AdditionalInfoController.removeAdditionalInfoRequest);
 router.post('/', validator(AdditionalInfoValidation.addAdditionalInfoRequest), AdditionalInfoController.addAdditionalInfoRequest);
 
 
