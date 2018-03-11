@@ -22,11 +22,11 @@ db.connect().catch(err => console.log(err));
 app.use('/api', routes);
 app.use((err, req, res) => {
 	if (err instanceof ApiError) {
-		// logger.error(err);
+		logger.error(err);
 		res.status(err.status || HTTP_STATUS.INTERNAL_SERVER_ERROR).send(err.message);
 		return;
 	}
-	// logger.error(err.message);
+	logger.error(err.message);
 	res.status(err.message || HTTP_STATUS.INTERNAL_SERVER_ERROR).send(err.message);
 });
 

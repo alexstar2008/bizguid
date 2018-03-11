@@ -6,7 +6,6 @@ const db = require('../libs/db');
 
 const ApiError = require('../../helpers/ApiError');
 
-
 async function upriseEnterprise(req, res) {
 	const { endDate, price, enterpriseId, type } = req.body;
 	const collection = db.get().collection('companiesShort');
@@ -38,6 +37,35 @@ async function getUprisedEnterprises(req, res) {
 		enterprises
 	});
 }
+async function updateUpriseEnterprise(req, res) {
+	const { endDate, price, enterpriseId, type } = req.body;
+	const collection = db.get().collection('companiesShort');
+	//
+	const query = {
+		[type + 'UpRise']: {
+			endDate: new Date(endDate),
+			price
+		}
+	};
+	await collection.updateOne({ _id: new ObjectId(enterpriseId) }, { $set: query });
+
+	res.json({
+		success: true,
+		enterpriseId
+	});
+}
+async function removeUpriseOfEnterprise(req, res) {
+	const { enterpriseId, upriseType } = req.body;
+	//
+	const collection = db.get().collection('companiesShort');
+	await collection.updateOne({ _id: new ObjectId(enterpriseId) }, { $unset: { [upriseType]: '' } });
+
+	res.json({
+		success: true,
+		enterpriseId
+	});
+}
+
 
 //Get
 function getAllCompanies(skip = 0, limit = 100) {
@@ -244,7 +272,9 @@ const EnterprisesController = {
 	getAdditionalInfo,
 	//
 	upriseEnterprise,
-	getUprisedEnterprises
+	getUprisedEnterprises,
+	updateUpriseEnterprise,
+	removeUpriseOfEnterprise
 };
 
 module.exports = EnterprisesController;

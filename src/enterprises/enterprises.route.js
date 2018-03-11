@@ -4,16 +4,17 @@ const router = express.Router();
 const HTTP = require('http-status');
 const bodyParser = require('body-parser');
 
-const enterprisesController = require('./enterprises.controller');
+const EnterprisesController = require('./enterprises.controller');
 
 
-
-router.post('/uprise', enterprisesController.upriseEnterprise);
-router.get('/uprise', enterprisesController.getUprisedEnterprises);
+router.post('/uprise', EnterprisesController.upriseEnterprise);
+router.get('/uprise', EnterprisesController.getUprisedEnterprises);
+router.put('/uprise', EnterprisesController.updateUpriseEnterprise);
+router.delete('/uprise', EnterprisesController.removeUpriseOfEnterprise);
 //All
 router.get('/', (req, res, next) => {
 	const { offset, amount } = req.query;
-	enterprisesController.getAllCompanies(offset, amount).then((data) => {
+	EnterprisesController.getAllCompanies(offset, amount).then((data) => {
 		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
@@ -21,7 +22,7 @@ router.get('/', (req, res, next) => {
 //Category&Region
 router.get('/search', (req, res, next) => {
 	const { categoryIds, regionIds, offset, amount } = req.query;
-	enterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
+	EnterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
 		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
@@ -29,7 +30,7 @@ router.get('/search', (req, res, next) => {
 //Slug
 router.get('/:slug', (req, res, next) => {
 	const slug = req.params.slug;
-	enterprisesController.getCompanyInfo(slug).then((data) => {
+	EnterprisesController.getCompanyInfo(slug).then((data) => {
 		res.status(HTTP.OK).send(data);
 	}).catch(next);
 });
@@ -37,7 +38,7 @@ router.get('/:slug', (req, res, next) => {
 router.get('/text-search/:text', (req, res, next) => {
 	const textSearch = req.params.text;
 	const { offset, amount } = req.query;
-	enterprisesController.getCompaniesByTextSearch(textSearch, offset, amount).then((data) => {
+	EnterprisesController.getCompaniesByTextSearch(textSearch, offset, amount).then((data) => {
 		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
@@ -45,14 +46,14 @@ router.get('/text-search/:text', (req, res, next) => {
 
 //TEST: section for search indexes
 router.get('/verify-text-indexes', (req, res, next) => {
-	enterprisesController.verifyIndexes().then((data) => {
+	EnterprisesController.verifyIndexes().then((data) => {
 		res.status(HTTP.OK).send(data);
 	}).catch(next);
 });
 //Region
 router.get('/region/:id', (req, res, next) => {
 	const id = req.params.id;
-	enterprisesController.getCompaniesByRegion(id).then((data) => {
+	EnterprisesController.getCompaniesByRegion(id).then((data) => {
 		res.status(HTTP.OK).send(data);
 	}).catch(next);
 });
@@ -61,7 +62,7 @@ router.get('/region/:id', (req, res, next) => {
 router.use(bodyParser.json());
 router.post('/additional', (req, res, next) => {
 	const { regions, categories } = req.body;
-	enterprisesController.getAdditionalInfo(regions, categories).then((data) => {
+	EnterprisesController.getAdditionalInfo(regions, categories).then((data) => {
 		res.status(HTTP.OK).send(data);
 	}).catch(next);
 });

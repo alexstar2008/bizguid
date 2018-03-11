@@ -3,6 +3,15 @@
 const { ObjectId } = require('mongodb');
 const db = require('../libs/db');
 
+async function addAdditionalInfoRequest(req, res) {
+    const { name, phone, email, message, enterprise } = req.body;
+    const collection = db.get().collection('additionalInfo');
+    const { insertedId: additionalInfoId } = await collection.insertOne({ name, phone, email, message, enterprise });
+    res.json({
+        success: true,
+        additionalInfoId
+    });
+}
 async function getAdditionalInfoList(req, res) {
     const collection = db.get().collection('additionalInfo');
 
@@ -12,10 +21,15 @@ async function getAdditionalInfoList(req, res) {
         aditionalInfo
     });
 }
-async function addAdditionalInfoRequest(req, res) {
+async function updateAdditionalInfoRequest(req, res) {
+    const { additionalInfoId } = req.params;
     const { name, phone, email, message, enterprise } = req.body;
+    //
     const collection = db.get().collection('additionalInfo');
-    const { insertedId: additionalInfoId } = await collection.insertOne({ name, phone, email, message, enterprise });
+    await collection.updateOne({ _id: new ObjectId(additionalInfoId) },
+        { $set: { name, phone, email, message, enterprise } });
+    //
+
     res.json({
         success: true,
         additionalInfoId
@@ -31,9 +45,11 @@ async function removeAdditionalInfoRequest(req, res) {
         additionalInfoId
     });
 }
+
 const AdditionalInfo = {
-    getAdditionalInfoList,
     addAdditionalInfoRequest,
+    getAdditionalInfoList,
+    updateAdditionalInfoRequest,
     removeAdditionalInfoRequest
 };
 

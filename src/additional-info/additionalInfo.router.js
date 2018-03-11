@@ -7,9 +7,10 @@ const validator = require('express-validation');
 const AdditionalInfoController = require('./additionalInfo.controller');
 const AdditionalInfoValidation = require('./validation');
 
-router.get('/', AdditionalInfoController.getAdditionalInfoList);
-router.delete('/:additionalInfoId', AdditionalInfoController.removeAdditionalInfoRequest);
 router.post('/', validator(AdditionalInfoValidation.addAdditionalInfoRequest), AdditionalInfoController.addAdditionalInfoRequest);
+router.get('/', AdditionalInfoController.getAdditionalInfoList);
+router.put('/:additionalInfoId', AdditionalInfoController.updateAdditionalInfoRequest);
+router.delete('/:   ', AdditionalInfoController.removeAdditionalInfoRequest);
 
 
 module.exports = router;
