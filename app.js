@@ -1,6 +1,6 @@
-const db = require('./config/db');
+const db = require('./src/libs/db');
 const server = require('./server/server.js');
-const cron = require('./config/cron');
+const cron = require('./src/libs/cron');
 
 db.connect().then((msg) => {
 	console.log(msg);

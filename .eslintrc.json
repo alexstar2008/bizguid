@@ -5,10 +5,13 @@
   },
   "extends": "eslint:recommended",
   "parserOptions": {
-    "sourceType": "module"
+    "sourceType": "module",
+    "ecmaVersion": 2017
   },
   "rules": {
-    "no-console":[0],
+    "no-console": [
+      0
+    ],
     "default-case": [
       "warn"
     ],
@@ -24,10 +27,10 @@
     "no-with": [
       "error"
     ],
-    "indent": [
-      "error",
-      "tab"
-    ],
+    // "indent": [
+    //   "error",
+    //   "tab"
+    // ],
     "quotes": [
       "error",
       "single"
