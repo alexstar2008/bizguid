@@ -1,7 +1,7 @@
 'use strict';
 
 const {MongoClient} = require('mongodb');
-const {username, pass, host, port, db} = require('../../config/config').dbSettings.mongoDb;
+const {username, pass, host, port, db} = require('../../config').dbSettings.mongoDb;
 
 const connection = {
 	db: null

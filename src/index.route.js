@@ -3,11 +3,11 @@ const express = require('express');
 const HTTPStatus = require('http-status');
 const router = express.Router();
 
-const enterprisesRoutes = require('../enterprises/enterprises.route');
-const regionsRoutes = require('../regions/regions.route');
-const categoriesRoutes = require('../categories/categories.route');
-const paymentRoutes = require('../payment/payment.route');
-const additionalInfoRoutes = require('../additional-info/additionalInfo.router');
+const enterprisesRoutes = require('./enterprises/enterprises.route');
+const regionsRoutes = require('./regions/regions.route');
+const categoriesRoutes = require('./categories/categories.route');
+const paymentRoutes = require('./payment/payment.route');
+const additionalInfoRoutes = require('./additional-info/additionalInfo.router');
 
 router.get('/', (req, res) => {
 	res.status(HTTPStatus.OK).json({ data: 'Welcome to BizGuid API' });
