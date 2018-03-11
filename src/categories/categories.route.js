@@ -1,7 +1,7 @@
 'use strict';
 const router = require('express').Router();
 
-const categoriesController = require('../controllers/categories.controller')();
+const categoriesController = require('./categories.controller');
 
 router.get('/:id?', (req, res, next) => {
 	const id = req.params.id;

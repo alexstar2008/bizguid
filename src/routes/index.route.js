@@ -3,9 +3,9 @@ const express = require('express');
 const HTTPStatus = require('http-status');
 const router = express.Router();
 
-const enterprisesRoutes = require('./enterprises.route');
-const regionsRoutes = require('./regions.route');
-const categoriesRoutes = require('./categories.route');
+const enterprisesRoutes = require('../enterprises/enterprises.route');
+const regionsRoutes = require('../regions/regions.route');
+const categoriesRoutes = require('../categories/categories.route');
 const paymentRoutes = require('../payment/payment.route');
 const additionalInfoRoutes = require('../additional-info/additionalInfo.router');
 
@@ -19,4 +19,4 @@ router.use('/categories', categoriesRoutes);
 router.use('/payment', paymentRoutes);
 router.use('/additional-info', additionalInfoRoutes);
 
-module.exports = router;
+module.exports = router;	

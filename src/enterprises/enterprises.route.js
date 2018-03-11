@@ -4,21 +4,25 @@ const router = express.Router();
 const HTTP = require('http-status');
 const bodyParser = require('body-parser');
 
-const enterprisesController = require('../controllers/enterprises.controller')();
+const enterprisesController = require('./enterprises.controller');
 
+
+
+router.post('/uprise', enterprisesController.upriseEnterprise);
+router.get('/uprise', enterprisesController.getUprisedEnterprises);
 //All
 router.get('/', (req, res, next) => {
-	const {offset, amount} = req.query;
+	const { offset, amount } = req.query;
 	enterprisesController.getAllCompanies(offset, amount).then((data) => {
-		const {enterprises, totalAmountEnterprises} = data;
+		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
 });
 //Category&Region
 router.get('/search', (req, res, next) => {
-	const {categoryIds, regionIds, offset, amount} = req.query;
+	const { categoryIds, regionIds, offset, amount } = req.query;
 	enterprisesController.getCompaniesByCategoryAndRegion(categoryIds, regionIds, offset, amount).then((data) => {
-		const {enterprises, totalAmountEnterprises} = data;
+		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
 });
@@ -32,9 +36,9 @@ router.get('/:slug', (req, res, next) => {
 //Text
 router.get('/text-search/:text', (req, res, next) => {
 	const textSearch = req.params.text;
-	const {offset, amount} = req.query;
-	enterprisesController.getCompaniesByTextSearch(textSearch,offset,amount).then((data) => {
-		const {enterprises, totalAmountEnterprises} = data;
+	const { offset, amount } = req.query;
+	enterprisesController.getCompaniesByTextSearch(textSearch, offset, amount).then((data) => {
+		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
 	}).catch(next);
 });
@@ -55,9 +59,9 @@ router.get('/region/:id', (req, res, next) => {
 
 // TODO : fix shared search for enterprise
 router.use(bodyParser.json());
-router.post('/additional',(req,res,next)=>{
-	const {regions,categories} = req.body;
-	enterprisesController.getAdditionalInfo(regions,categories).then((data) => {
+router.post('/additional', (req, res, next) => {
+	const { regions, categories } = req.body;
+	enterprisesController.getAdditionalInfo(regions, categories).then((data) => {
 		res.status(HTTP.OK).send(data);
 	}).catch(next);
 });
