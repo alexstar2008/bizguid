@@ -10,7 +10,7 @@ const AdditionalInfoValidation = require('./validation');
 router.post('/', validator(AdditionalInfoValidation.addAdditionalInfoRequest), AdditionalInfoController.addAdditionalInfoRequest);
 router.get('/', AdditionalInfoController.getAdditionalInfoList);
 router.put('/:additionalInfoId', AdditionalInfoController.updateAdditionalInfoRequest);
-router.delete('/:   ', AdditionalInfoController.removeAdditionalInfoRequest);
+router.delete('/:additionalInfoId', AdditionalInfoController.removeAdditionalInfoRequest);
 
 
 module.exports = router;
