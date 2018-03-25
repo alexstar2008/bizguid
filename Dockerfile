@@ -1,17 +1,15 @@
-FROM node:carbon
+FROM node:9.5.0
 
-#create app directory
-WORKDIR /usr/src/app
+RUN mkdir -p /bizguid
+WORKDIR /bizguid
 
-COPY package*.json ./
-
-#install dependencies
+COPY package.json /bizguid
+RUN npm run preinstall
 RUN npm install
 
-#bundle app source
+COPY . /bizguid
+RUN chmod -R 777 /bizguid
 
-COPY . .
+EXPOSE 3005
 
-#port   
-EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD ['pm2','app.js']
