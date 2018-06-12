@@ -25,6 +25,9 @@ const disconnect = function () {
 	}
 };
 const get = function () {
+	if(!connection.db){
+		connect();
+	}
 	console.log('[MongoDb]:got connection');
 	return connection.db;
 };

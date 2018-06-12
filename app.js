@@ -18,7 +18,8 @@ const app = express();
 const middlewares = fs.readdirSync(`${__dirname}/src/middlewares`);
 middlewares.forEach(middleware => app.use(require(`./src/middlewares/${middleware}`)()));
 
-db.connect().catch(err => console.log(err));
+db.connect().then(()=>{}).catch(err => console.log(err));
+
 app.use('/api', routes);
 app.use((err, req, res) => {
 	if (err instanceof ApiError) {
@@ -30,12 +31,14 @@ app.use((err, req, res) => {
 	res.status(err.message || HTTP_STATUS.INTERNAL_SERVER_ERROR).send(err.message);
 });
 
-app.listen(port, (err) => {
+const server = app.listen(port, (err) => {
 	if (err) {
 		logger.err('[Server]:ERROR start' + err);
 	}
 	logger.info(`[Server]:started at port ${port}`);
 });
+
+module.exports = server;
 
 
 

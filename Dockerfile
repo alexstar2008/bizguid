@@ -10,6 +10,6 @@ RUN npm install
 COPY . /bizguid
 RUN chmod -R 777 /bizguid
 
-EXPOSE 3005
+EXPOSE 80
 
-CMD ['pm2','app.js']
+CMD ["pm2-docker","app.js"]

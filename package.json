@@ -9,7 +9,9 @@
     "preinstall": "npm install pm2 -g",
     "lint": "eslint . --quiet",
     "serve": "nodemon app.js",
-    "start": "node app.js"
+    "start": "node app.js",
+    "report": "./node_modules/.bin/nyc report --reporter=html",
+    "test": "./node_modules/.bin/nyc --reporter=html  ./node_modules/.bin/mocha  --exit --timeout 15000 --recursive $(find src -name '*test.js')"
   },
   "dependencies": {
     "body-parser": "https://registry.npmjs.org/body-parser/-/body-parser-1.18.2.tgz",
@@ -28,8 +30,12 @@
     "winston": "^3.0.0-rc1"
   },
   "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
     "eslint": "^4.10.0",
-    "nodemon": "^1.12.1"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.12.1",
+    "nyc": "^12.0.2"
   },
   "engines": {
     "node": "9.5.0",
