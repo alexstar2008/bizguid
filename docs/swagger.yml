@@ -1,0 +1,639 @@
+swagger: '2.0'
+resourcePath: /stuurm
+info:
+  description: |
+    API documentation for Ukrainian Enterprises
+  version: 1.0.0
+  title: Ukrainian enterprises
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: alexey.starovoytenko@gmail.com
+host: bizguid.herokuapp.com
+basePath: /api/
+schemes:
+ - http
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    in: header
+    name: Authorization
+tags:
+- name: enterprises
+  description: Enterprises search
+- name: categories
+  description: Categories
+- name: additionalInfo
+  description: Request additional Info
+- name: LiqPay
+  description: LiqPay integration
+paths:
+  /enterprises:
+    get:
+      tags:
+      - enterprises
+      summary: List all enterprises
+      operationId: listEnterprises
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: offset
+        description: Offset of enterprises
+        type: integer
+        default: 0
+        minimum: 0
+      - in: query
+        name: amount
+        description: Amount of enterprises
+        type: integer
+        default: 100
+        minimum: 1
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-total-count:
+              schema:
+                type: integer
+              description: Amount of enterprises in response
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/EnterpriseShort'
+  /enterprises/{slug}:
+    get:
+      tags:
+      - enterprises
+      summary: Get enterprise by slug
+      operationId: searchBySlug
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: slug
+        description: Slug of enterprise
+        type: string
+        default: сорус
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-total-count:
+              schema:
+                type: integer
+              description: Amount of enterprises in response
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Enterprise'
+  /enterprises/search:
+    get:
+      tags:
+      - enterprises
+      summary: Search enterprises by categories
+      operationId: searchByCategories
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: categoryIds
+        description: List of categories
+        type: string
+        default: '59ed26240e0742b928d19351,59ed26240e0742b928d1927a'
+      - in: path
+        name: regionIds
+        description: List of regions
+        type: string
+        default: '59ed26230e0742b928d1922e,59ed26230e0742b928d19230'
+      - in: query
+        name: offset
+        description: Offset of enterprises
+        type: integer
+        default: 0
+        minimum: 0
+      - in: query
+        name: amount
+        description: Amount of enterprises
+        type: integer
+        default: 100
+        minimum: 1
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-total-count:
+              schema:
+                type: integer
+              description: Amount of enterprises in response
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Enterprise'
+  /enterprises/text-search/{text}:
+    get:
+      tags:
+      - enterprises
+      summary: Search by text
+      operationId: getByText
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: text
+        description: Text from search field
+        type: string
+        default: 'ІНТЕРГАРАНТ'
+      - in: query
+        name: amount
+        description: Amount of enterprises
+        type: integer
+        default: 100
+        minimum: 1
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-total-count:
+              schema:
+                type: integer
+              description: Amount of enterprises in response
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Enterprise'
+  /regions:
+    get:
+      tags:
+      - categories
+      summary: List regions related to parent region
+      operationId: getByRegion
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: Id of parent region
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Region'
+  /categories:
+    get:
+      tags:
+      - categories
+      summary: List categories related to parent category
+      operationId: getByCategory
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: query
+        name: id
+        description: Id of parent category
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Category'
+  /payment:
+    post:
+      tags:
+      - LiqPay
+      summary: Create payment
+      operationId: postPayment
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Id of parent category
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Category'
+  /liqpay:
+    get:
+      tags:
+      - LiqPay
+      summary: Create LiqPay payment
+      operationId: postLiqpay
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        type: string
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            phone:
+              type: string  
+            email:
+              type: string
+              format: email
+            message:
+              type: string
+            enterprise:
+              type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Category'
+  /liqpay/callback:
+    post:
+      tags:
+      - LiqPay
+      summary: Callback for LiqPay
+      operationId: liqpayPayment
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Id of parent category
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Category'
+  /additional-info:
+    post:
+      tags:
+      - additionalInfo
+      summary: Make request for additional info
+      operationId: additionalInfoPost
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        type: string
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            phone:
+              type: string  
+            email:
+              type: string
+              format: email
+            message:
+              type: string
+            enterprise:
+              type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              additionalInfoId:
+                type: string
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            $ref: '#/definitions/Category'
+    get:
+      tags:
+      - additionalInfo
+      summary: Get list of requests
+      operationId: additionalInfoGet
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: body
+        description: Id of parent category
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              aditionalInfo:
+                type: array
+                items:
+                  schema: 
+                    $ref: '#/definitions/AdditionalInfo'
+  /additional-info/{id}:
+    put:
+      tags:
+      - additionalInfo
+      summary: Update request
+      operationId: additionalInfoUpd
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+      - in: body
+        name: body
+        type: string
+        schema:
+          type: object
+          properties:
+            name:
+              type: string
+            phone:
+              type: string  
+            email:
+              type: string
+              format: email
+            message:
+              type: string
+            enterprise:
+              type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              additionalInfoId:
+                type: string
+    delete:
+      tags:
+      - additionalInfo
+      summary: Remove request
+      operationId: additionalInfoDel
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: path
+        name: id
+        type: string
+      responses:
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ApiResponse'
+        200:
+          description: Ok
+          headers:
+            x-response-time:
+              schema:
+                type: integer
+              description: Time of operating request
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              additionalInfoId:
+                type: string
+definitions:
+  Region:
+    type: object
+    properties:
+      id:
+        type: string
+      slug:
+        type: string
+      name:
+        type: string
+  Category:
+    type: object
+    properties:
+      id:
+        type: string
+      slug:
+        type: string
+      name:
+        type: string
+  EnterpriseShort:
+    type: object
+    # required:
+    # - email
+    # - password
+    # - firstName
+    properties:
+      slug:
+        type: string
+      name:
+        type: string
+      emails:
+        type: array
+        items:
+          type: string
+          format: email
+      regionName:
+        type: string
+      phones:
+        type: string
+      categoriesId:
+        type: array
+        items:
+          type: string
+      companyRegionsId:
+        type: array
+        items:
+          type: string
+      UpRise:
+        type: object
+  Enterprise:
+    type: object
+    # required:
+    # - email
+    # - password
+    # - firstName
+    properties:
+      slug:
+        type: string
+      name:
+        type: string
+      logo:
+        type: string
+      description:
+        type: string
+      emails:
+        type: array
+        items:
+          type: string
+          format: email
+      phones:
+        type: string
+      postAddress:
+        type: string
+      address:
+        type: string
+      faxes:
+        type: string
+      contactPeople:
+        type: object
+      openHours:
+        type: object
+      employeesNumber:
+        type: integer
+      yearOfFoundation:
+        type: integer
+      bankDetails:
+        type: object
+      productsAndOffers:
+        type: string
+      categoriesId:
+        type: array
+        items:
+          type: string
+      companyRegionsId:
+        type: array
+        items:
+          type: string
+      sitesUrL:
+        type: string
+  ApiResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+        default: false
+      message:
+        type: string
+  AdditionalInfo:
+    type: object
+    properties:
+      id:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+        format: email
+      message:
+        type: string
+      enterprise:
+        type: strings

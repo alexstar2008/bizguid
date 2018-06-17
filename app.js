@@ -10,6 +10,11 @@ const ApiError = require('./helpers/ApiError');
 const { serverSettings: { port } } = require('./config');
 const logger = require('./src/libs/winston');
 const db = require('./src/libs/db');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./docs/swagger.yml');
+
+
 // const cron = require('./src/libs/cron');
 const routes = require('./src/index.route');
 
@@ -21,6 +26,7 @@ middlewares.forEach(middleware => app.use(require(`./src/middlewares/${middlewar
 db.connect().then(()=>{}).catch(err => console.log(err));
 
 app.use('/api', routes);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use((err, req, res) => {
 	if (err instanceof ApiError) {
 		logger.error(err);

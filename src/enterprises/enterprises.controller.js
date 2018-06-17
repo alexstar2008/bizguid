@@ -101,6 +101,7 @@ function getCompanyInfo(slug) {
 		collection.findOne(
 			{ 'slug': slug },
 			(err, company) => {
+				console.log(err);
 				if (err)
 					return reject(new ApiError(`Error of getting data(${err})`));
 				resolve(company);

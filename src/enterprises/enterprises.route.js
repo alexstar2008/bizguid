@@ -31,13 +31,14 @@ router.get('/search', (req, res, next) => {
 router.get('/:slug', (req, res, next) => {
 	const slug = req.params.slug;
 	EnterprisesController.getCompanyInfo(slug).then((data) => {
-		res.status(HTTP.OK).send(data);
+		res.status(HTTP.OK).send(data || {});
 	}).catch(next);
 });
 //Text
 router.get('/text-search/:text', (req, res, next) => {
 	const textSearch = req.params.text;
 	const { offset, amount } = req.query;
+	console.log(textSearch);
 	EnterprisesController.getCompaniesByTextSearch(textSearch, offset, amount).then((data) => {
 		const { enterprises, totalAmountEnterprises } = data;
 		res.header('X-total-count', totalAmountEnterprises).status(HTTP.OK).send(enterprises);
